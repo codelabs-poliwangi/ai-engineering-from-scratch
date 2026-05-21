@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-1a1a1a?style=flat-square&labelColor=fafaf5" alt="MIT License"></a>
-  <a href="ROADMAP.md"><img src="https://img.shields.io/badge/lessons-428-3553ff?style=flat-square&labelColor=fafaf5" alt="428 lessons"></a>
+  <a href="ROADMAP.md"><img src="https://img.shields.io/badge/lessons-435-3553ff?style=flat-square&labelColor=fafaf5" alt="435 lessons"></a>
   <a href="#contents"><img src="https://img.shields.io/badge/phases-20-3553ff?style=flat-square&labelColor=fafaf5" alt="20 phases"></a>
   <a href="https://github.com/rohitg00/ai-engineering-from-scratch/stargazers"><img src="https://img.shields.io/github/stars/rohitg00/ai-engineering-from-scratch?style=flat-square&labelColor=fafaf5&color=3553ff" alt="GitHub stars"></a>
   <a href="https://aiengineeringfromscratch.com"><img src="https://img.shields.io/badge/web-aiengineeringfromscratch.com-3553ff?style=flat-square&labelColor=fafaf5" alt="Website"></a>
@@ -17,7 +17,7 @@
 > **84% of students already use AI tools. Only 18% feel prepared to use them
 > professionally.** This curriculum closes that gap.
 >
-> 428 lessons. 20 phases. ~320 hours. Python, TypeScript, Rust, Julia. Every lesson ships
+> 435 lessons. 20 phases. ~320 hours. Python, TypeScript, Rust, Julia. Every lesson ships
 > a reusable artifact: a prompt, a skill, an agent, an MCP server. Free, open source, MIT.
 >
 > You don't just learn AI. You build it. End-to-end. By hand.
@@ -29,7 +29,7 @@ flashy agent demo somewhere else. The pieces rarely line up. You ship a chatbot 
 explain its loss curve. You hook a function to an agent but can't say what attention does
 inside the model that's calling it.
 
-This curriculum is the spine. 20 phases, 428 lessons, four languages: Python, TypeScript,
+This curriculum is the spine. 20 phases, 435 lessons, four languages: Python, TypeScript,
 Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm
 gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time
 PyTorch shows up, you already know what it's doing under the hood.
@@ -173,7 +173,7 @@ Other curricula end with *"congratulations, you learned X."* Each lesson here en
 </table>
 
 > Install the lot with [SkillKit](https://github.com/rohitg00/skillkit). Real tools, not
-> homework. By the end of the curriculum, you have a portfolio of 428 artifacts you actually
+> homework. By the end of the curriculum, you have a portfolio of 435 artifacts you actually
 > understand because you built them.
 
 ### FIG_002 · A worked sample
@@ -675,6 +675,8 @@ Twenty phases. Click any phase to expand its lesson list.
 | 41 | [The Workbench on a Real Repo](phases/14-agent-engineering/41-workbench-for-real-repos/) | Build | Python |
 | 42 | [Capstone: Ship a Reusable Agent Workbench Pack](phases/14-agent-engineering/42-agent-workbench-capstone/) | Build | Python |
 
+Each Phase 14 workbench lesson (31-42) ships a `mission.md` briefing the agent before it opens the full lesson docs.
+
 </details>
 
 <details id="phase-15">
@@ -855,13 +857,105 @@ Every lesson produces a reusable artifact. By the end you have:
 ```
 outputs/
 ├── prompts/      prompt templates for every AI task
-├── skills/       SKILL.md files for AI coding agents
-├── agents/       agent definitions ready to deploy
-└── mcp-servers/  MCP servers built during the course
+└── skills/       SKILL.md files for AI coding agents
 ```
 
 Install them with [SkillKit](https://github.com/rohitg00/skillkit). Plug them into Claude, Cursor,
 Codex, OpenClaw, Hermes, or any MCP-compatible agent. Real tools, not homework.
+
+### Install every course skill into your agent
+
+The repo ships 373 skills and 99 prompts under `phases/**/outputs/`.
+`scripts/install_skills.py` walks every artifact, parses YAML frontmatter, and
+copies the matching files into a target directory in the layout your agent
+expects.
+
+```bash
+python3 scripts/install_skills.py ~/.claude/skills                 # every skill, SkillKit layout
+python3 scripts/install_skills.py ./out --type all                 # skills + prompts + agents
+python3 scripts/install_skills.py ./out --phase 14                 # one phase only
+python3 scripts/install_skills.py ./out --tag rag                  # filter by tag
+python3 scripts/install_skills.py ./out --layout flat              # flat files instead of SkillKit
+python3 scripts/install_skills.py ./out --dry-run                  # preview without writing
+python3 scripts/install_skills.py ./out --force                    # overwrite existing files
+```
+
+By default the script refuses to overwrite an existing destination and exits
+with code 1 after listing every colliding path. Use `--dry-run` to preview
+collisions or `--force` to overwrite. Every non-dry-run run writes a
+`manifest.json` in the target with the full inventory grouped by type and
+phase. Pick the layout your agent reads:
+
+| `--layout`  | Path written |
+|---|---|
+| `skillkit`  | `<target>/<name>/SKILL.md` (Claude / Cursor / SkillKit) |
+| `by-phase`  | `<target>/phase-NN/<name>.md` |
+| `flat`      | `<target>/<name>.md` |
+
+### Drop the agent workbench into your own repo
+
+The Phase 14 capstone ships a reusable Agent Workbench pack (AGENTS.md, schemas,
+init / verify / handoff scripts). Scaffold it into any repo with:
+
+```bash
+python3 scripts/scaffold_workbench.py path/to/your-repo            # full pack + seeds
+python3 scripts/scaffold_workbench.py path/to/your-repo --minimal  # skip docs/
+python3 scripts/scaffold_workbench.py path/to/your-repo --dry-run  # preview only
+python3 scripts/scaffold_workbench.py path/to/your-repo --force    # overwrite
+```
+
+You get the seven workbench surfaces wired up, a starter `task_board.json`,
+and a fresh `agent_state.json` at `schema_version: 1`. From there: edit the
+task, edit `AGENTS.md`, run `scripts/init_agent.py`, hand the contract to
+your agent. The pack source lives at
+`phases/14-agent-engineering/42-agent-workbench-capstone/outputs/agent-workbench-pack/`.
+
+### Browse the entire course as JSON
+
+`scripts/build_catalog.py` walks every phase, every lesson, every artifact on
+disk and writes `catalog.json` at the repo root. One file, every course truth.
+
+```bash
+python3 scripts/build_catalog.py               # writes <repo>/catalog.json
+python3 scripts/build_catalog.py --stdout      # to stdout, do not touch repo
+python3 scripts/build_catalog.py --out path/to/file.json
+```
+
+The catalog is filesystem-derived, not README-derived, so counts always match
+what is actually on disk. Use it for site builds, downstream tooling, or to
+verify the README counts have not drifted. Schema is documented at the top of
+the script.
+
+A GitHub Action (`.github/workflows/curriculum.yml`) rebuilds `catalog.json`
+on every PR and fails the build if the committed file is stale. After editing
+any lesson, run `python3 scripts/build_catalog.py` and commit the result, or
+CI will reject the PR. The same workflow runs `audit_lessons.py` in
+warn-only mode (so existing drift does not block contributors).
+
+### Smoke-check every lesson's Python code
+
+`scripts/lesson_run.py` byte-compiles every `.py` file under each lesson's
+`code/` directory. Default mode is syntax-check only — no execution, no API
+keys, no heavy ML deps required. Catches the regressions contributors
+introduce most often (bad indentation, broken f-strings, stray edits).
+
+```bash
+python3 scripts/lesson_run.py                  # syntax-check the whole curriculum
+python3 scripts/lesson_run.py --phase 14       # one phase only
+python3 scripts/lesson_run.py --json           # JSON report on stdout
+python3 scripts/lesson_run.py --strict         # exit 1 if any lesson fails
+python3 scripts/lesson_run.py --execute        # actually run, 10s timeout per lesson
+```
+
+`--execute` runs each lesson's `code/main.py` (or the first `.py` file) with a
+10-second timeout. Lessons whose entry file starts with a `# requires: pkg1,
+pkg2` comment listing non-stdlib deps are skipped with reason `needs <deps>`.
+The script is opt-in and not wired into CI.
+
+Stdlib only, Python 3.10+. Set `LINK_CHECK_SKIP=domain1,domain2` to override
+the default skip-list (`twitter.com`, `x.com`, `linkedin.com`,
+`instagram.com`, `medium.com` — domains that aggressively block automated
+HEAD/GET).
 
 ## Where to start
 
@@ -927,13 +1021,26 @@ Codex, OpenClaw, Hermes, or any MCP-compatible agent. Real tools, not homework.
 | Glossary | [glossary/terms.md](glossary/terms.md) |
 | Code of conduct | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) |
 
+Before submitting a lesson, run the invariant check:
+
+```bash
+python3 scripts/audit_lessons.py           # full curriculum
+python3 scripts/audit_lessons.py --phase 14  # single phase
+python3 scripts/audit_lessons.py --json    # CI-friendly output
+```
+
+Exit code is non-zero when any rule fails. Rules (L001–L010) validate directory
+shape, `docs/en.md` presence + H1, `code/` non-emptiness, `quiz.json` schema
+(rejects the legacy `q/choices/answer` keys that caused issue #102), and
+relative links inside lesson docs.
+
 ```
 ░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
 ```
 
 ## Sponsor the work
 
-Free, MIT-licensed, 428 lessons. The curriculum is maintained on sponsorship alone. Cash only.
+Free, MIT-licensed, 435 lessons. The curriculum is maintained on sponsorship alone. Cash only.
 
 **Reach (verified 2026-05-14):** 55,593 monthly visitors · 90,709 page views · 7.5K stars ·
 Twitter/X is the #1 acquisition channel.

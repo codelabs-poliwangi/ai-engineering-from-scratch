@@ -69,6 +69,7 @@
       font-style: italic;
     }
 
+
     .preface {
       padding: 48px 0 32px;
       border-bottom: 1px solid var(--rule-soft);
@@ -526,6 +527,43 @@
         font-size: 0.7rem;
       }
     }
+
+
+    /* Figure card (makingsoftware aesthetic) */
+    .figure-card {
+      border: 1px solid var(--rule-soft);
+      background: var(--bg);
+      padding: 0;
+      margin: 24px 0 36px;
+      background-image: radial-gradient(circle at 4px 4px, rgba(0,0,0,0.05) 1px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+    .figure-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .figure-head .left { color: var(--blueprint); }
+    .figure-head .right { color: var(--ink-mute); }
+    .figure-body {
+      padding: 32px 24px;
+      overflow-x: auto;
+    }
+    .figure-body svg { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; color: var(--blueprint); }
+    .figure-foot {
+      padding: 14px 24px;
+      border-top: 1px solid var(--rule-soft);
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -639,6 +677,7 @@
         </div>
       </div>
     </div>
+
 
     <section class="colophon container">
       <div class="colophon-grid">

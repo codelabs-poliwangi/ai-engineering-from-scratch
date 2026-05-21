@@ -1306,6 +1306,7 @@
       white-space: nowrap;
     }
 
+
     .phase-progress-bar {
       width: 100%;
       height: 4px;
@@ -1970,14 +1971,14 @@
         var article = document.querySelector('.lesson-article');
         if (!article) {
           sidebar.innerHTML = '';
-          sidebar.setAttribute('aria-hidden', 'true');
+          sidebar.removeAttribute('aria-hidden');
           return;
         }
 
         var headings = article.querySelectorAll('h2, h3');
         if (!headings.length) {
           sidebar.innerHTML = '';
-          sidebar.setAttribute('aria-hidden', 'true');
+          sidebar.removeAttribute('aria-hidden');
           return;
         }
 
