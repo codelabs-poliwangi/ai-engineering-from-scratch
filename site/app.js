@@ -1,13 +1,7 @@
 (function () {
   var root = document.documentElement;
   var stored = localStorage.getItem('theme');
-  if (stored) {
-    root.setAttribute('data-theme', stored);
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    root.setAttribute('data-theme', 'dark');
-  } else {
-    root.setAttribute('data-theme', 'light');
-  }
+  root.setAttribute('data-theme', stored || 'light');
   updateThemeIcon();
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -136,9 +130,10 @@
       var statusClass = p.status.replace(/ /g, '-');
       var roman = toRoman(p.id);
       var num = String(p.id).padStart(2, '0');
-      html += '<div class="toc-row" data-phase="' + i + '" role="button" tabindex="0" aria-label="Open phase ' + escapeHtml(p.name) + '">';
+      var phaseName = t('phase.' + p.id + '.name', p.name);
+      html += '<div class="toc-row" data-phase="' + i + '" role="button" tabindex="0" aria-label="Open phase ' + escapeHtml(phaseName) + '">';
       html += '<span class="toc-num">' + roman + '.</span>';
-      html += '<div><span class="toc-status ' + statusClass + '"></span><span class="toc-name">' + escapeHtml(p.name) + '</span></div>';
+      html += '<div><span class="toc-status ' + statusClass + '"></span><span class="toc-name">' + escapeHtml(phaseName) + '</span></div>';
       html += '<span class="toc-meta">' + done + ' / ' + total + '</span>';
       html += '<span class="toc-meta">' + num + '</span>';
       html += '</div>';
@@ -223,8 +218,8 @@
     currentPhaseIdx = idx;
 
     document.getElementById('modalPhaseNum').textContent = t('catalog.phase', 'Phase').toUpperCase() + ' ' + String(p.id).padStart(2, '0');
-    document.getElementById('modalTitle').textContent = p.name;
-    document.getElementById('modalDesc').textContent = p.desc;
+    document.getElementById('modalTitle').textContent = t('phase.' + p.id + '.name', p.name);
+    document.getElementById('modalDesc').textContent = t('phase.' + p.id + '.desc', p.desc);
 
     renderModalLessons(p);
 
@@ -468,6 +463,8 @@
   }
 
   function t(key, fallback) {
-    return window.AIFSI18n ? window.AIFSI18n.t(key) : fallback;
+    if (!window.AIFSI18n) return fallback !== undefined ? fallback : key;
+    var val = window.AIFSI18n.t(key);
+    return (val && val !== key) ? val : (fallback !== undefined ? fallback : key);
   }
 })();
