@@ -11,6 +11,18 @@
   updateThemeIcon();
 
   document.addEventListener('DOMContentLoaded', function () {
+    try {
+      if (window.AIFSI18n) {
+        window.AIFSI18n.initGlobalLanguage(new URLSearchParams(window.location.search));
+        document.addEventListener('aifs:langchange', function () {
+          populateStats();
+          renderPhases();
+          if (currentPhaseIdx >= 0 && PHASES[currentPhaseIdx]) renderModalLessons(PHASES[currentPhaseIdx]);
+        });
+      }
+    } catch (e) {
+      console.error('[aifs] i18n init failed:', e);
+    }
     initThemeToggle();
     populateStats();
     renderPhases();
@@ -124,7 +136,7 @@
       var statusClass = p.status.replace(/ /g, '-');
       var roman = toRoman(p.id);
       var num = String(p.id).padStart(2, '0');
-      html += '<div class="toc-row" data-phase="' + i + '">';
+      html += '<div class="toc-row" data-phase="' + i + '" role="button" tabindex="0" aria-label="Open phase ' + escapeHtml(p.name) + '">';
       html += '<span class="toc-num">' + roman + '.</span>';
       html += '<div><span class="toc-status ' + statusClass + '"></span><span class="toc-name">' + escapeHtml(p.name) + '</span></div>';
       html += '<span class="toc-meta">' + done + ' / ' + total + '</span>';
@@ -132,6 +144,25 @@
       html += '</div>';
     }
     grid.innerHTML = html;
+
+    // Direct listener on grid — more reliable than document-level delegation
+    if (!grid._clickBound) {
+      grid._clickBound = true;
+      grid.addEventListener('click', function (e) {
+        var row = e.target.closest('.toc-row');
+        if (!row) return;
+        var idx = parseInt(row.getAttribute('data-phase'), 10);
+        if (!isNaN(idx)) openModal(idx);
+      });
+      grid.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var row = e.target.closest('.toc-row');
+        if (!row) return;
+        e.preventDefault();
+        var idx = parseInt(row.getAttribute('data-phase'), 10);
+        if (!isNaN(idx)) openModal(idx);
+      });
+    }
   }
 
   function toRoman(num) {
@@ -177,7 +208,7 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
         if (!window.AIFSProgress) return;
-        var ok = window.confirm('Clear all your local progress (quiz answers and completed lessons)? This cannot be undone.');
+        var ok = window.confirm(t('home.modal.confirmReset', 'Clear all your local progress (quiz answers and completed lessons)? This cannot be undone.'));
         if (!ok) return;
         window.AIFSProgress.reset();
       });
@@ -191,7 +222,7 @@
     if (!p) return;
     currentPhaseIdx = idx;
 
-    document.getElementById('modalPhaseNum').textContent = 'PHASE ' + String(p.id).padStart(2, '0');
+    document.getElementById('modalPhaseNum').textContent = t('catalog.phase', 'Phase').toUpperCase() + ' ' + String(p.id).padStart(2, '0');
     document.getElementById('modalTitle').textContent = p.name;
     document.getElementById('modalDesc').textContent = p.desc;
 
@@ -231,7 +262,7 @@
 
       var actionHtml = '';
       if ((l.status === 'complete' || userComplete) && lessonPath) {
-        actionHtml = '<a href="lesson.html?path=' + lessonPath + '" class="modal-lesson-read">' + (userComplete ? 'Review' : 'Read') + '</a>';
+        actionHtml = '<a href="lesson.html?path=' + lessonPath + '&lang=' + encodeURIComponent(currentLang()) + '" class="modal-lesson-read">' + (userComplete ? t('home.modal.review', 'Review') : t('home.modal.read', 'Read')) + '</a>';
       }
       var toggleHtml = '';
       if (hasProgress && lessonPath) {
@@ -244,8 +275,8 @@
     container.innerHTML = html;
 
     var toggles = container.querySelectorAll('.modal-lesson-toggle');
-    for (var t = 0; t < toggles.length; t++) {
-      toggles[t].addEventListener('click', function (e) {
+    for (var ti = 0; ti < toggles.length; ti++) {
+      toggles[ti].addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
         var path = this.getAttribute('data-path');
@@ -265,7 +296,7 @@
       var pct = Math.round((userDone / p.lessons.length) * 100);
       if (progEl) {
         progEl.style.display = '';
-        progEl.innerHTML = '<span class="modal-progress-count">' + userDone + ' / ' + p.lessons.length + '</span> <span class="modal-progress-label">completed</span> <span class="modal-progress-pct">' + pct + '%</span>';
+        progEl.innerHTML = '<span class="modal-progress-count">' + userDone + ' / ' + p.lessons.length + '</span> <span class="modal-progress-label">' + t('home.modal.completed', 'completed') + '</span> <span class="modal-progress-pct">' + pct + '%</span>';
       }
       if (barEl && barFill) {
         barEl.style.display = '';
@@ -430,5 +461,13 @@
     var div = document.createElement('div');
     div.textContent = str == null ? '' : str;
     return div.innerHTML;
+  }
+
+  function currentLang() {
+    return window.AIFSI18n ? window.AIFSI18n.currentLang() : 'en';
+  }
+
+  function t(key, fallback) {
+    return window.AIFSI18n ? window.AIFSI18n.t(key) : fallback;
   }
 })();
