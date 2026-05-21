@@ -480,14 +480,7 @@
   }
 
   function localizeLessonMarkdown(md, lang) {
-    if (lang !== 'id') return md;
-    return transformMarkdownOutsideCode(md, function (text) {
-      var out = text;
-      MARKDOWN_REPLACEMENTS_ID.forEach(function (entry) {
-        out = out.replace(entry[0], entry[1]);
-      });
-      return out;
-    });
+    return md; // auto-translate disabled: show EN content as-is
   }
 
   function transformMarkdownOutsideCode(md, transform) {
