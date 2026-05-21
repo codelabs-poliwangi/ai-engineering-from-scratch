@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lesson - AI Engineering from Scratch</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23fafaf5'/><rect x='2' y='2' width='28' height='28' fill='none' stroke='%233553ff' stroke-width='1.2'/><text x='6' y='22' font-size='14' font-family='monospace' fill='%233553ff'>AI</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231c1a17'/><rect x='2' y='2' width='28' height='28' fill='none' stroke='%23e0a836' stroke-width='1.2'/><text x='6' y='22' font-size='14' font-family='monospace' fill='%23e0a836'>AI</text></svg>">
   <meta name="description" content="A lesson from the AI Engineering from Scratch curriculum. 416 lessons across 20 phases, four languages, every algorithm built from raw math.">
   <meta property="og:title" content="AI Engineering from Scratch · Lesson">
   <meta property="og:description" content="416 lessons. 20 phases. Write the backprop, the tokenizer, the attention mechanism, and the agent loop by hand.">
@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260508a">
+  <link rel="stylesheet" href="style.css?v=20260522-redesign">
   <style>
     .scroll-progress {
       position: fixed;
@@ -1568,17 +1568,12 @@
         <span class="logo-icon" aria-hidden="true"></span> AI / FROM SCRATCH
       </a>
       <nav class="header-nav">
-        <a href="index.html#contents">Contents</a>
-        <a href="catalog.html">Catalog</a>
-        <a href="prereqs.html">Roadmap</a>
-        <a href="glossary.html">Glossary</a>
-        <a href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" rel="noopener" class="header-github">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          <svg class="star-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.896l-7.416 3.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>
-          <span class="star-count" data-loading="true" aria-label="GitHub stars">…</span>
-        </a>
+        <a href="index.html#contents" data-i18n="nav.contents">Contents</a>
+        <a href="catalog.html" data-i18n="nav.catalog">Catalog</a>
+        <a href="prereqs.html" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="glossary.html" data-i18n="nav.glossary">Glossary</a>
       </nav>
-      <button class="search-toggle" type="button" data-cmd-palette
+      <button class="search-toggle" type="button" data-cmd-palette data-i18n-aria="search.aria"
         aria-label="Search (⌘K)" title="Search (⌘K)">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2.5"
@@ -1587,7 +1582,11 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
       </button>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button">
+      <div class="language-toggle" id="languageToggle" aria-label="Lesson language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="id" aria-pressed="false">ID</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" data-i18n-aria="theme.aria" aria-label="Toggle theme" type="button">
         <span class="theme-icon" id="themeIcon">N</span>
       </button>
     </div>
@@ -1620,10 +1619,11 @@
     <aside class="toc-sidebar" id="tocSidebar" aria-hidden="true"></aside>
   </div>
 
-  <script src="data.js?v=20260508a"></script>
-  <script src="progress.js?v=20260508a"></script>
-  <script src="header.js?v=20260508a" defer></script>
-  <script src="cmdpalette.js?v=20260508a" defer></script>
+  <script src="data.js?v=20260522-redesign"></script>
+  <script src="progress.js?v=20260522-redesign"></script>
+  <script src="i18n.js?v=20260521-i18n-id"></script>
+  <script src="header.js?v=20260522-redesign" defer></script>
+  <script src="cmdpalette.js?v=20260522-redesign" defer></script>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     mermaid.initialize({
@@ -1677,6 +1677,11 @@
 
       var params = new URLSearchParams(window.location.search);
       var lessonPath = params.get('path');
+      var lessonLang = window.AIFSI18n.getInitialLang(params);
+      var renderedLang = lessonLang;
+      var usedFallbackLang = null;
+      document.documentElement.setAttribute('data-lang', lessonLang);
+      window.AIFSI18n.applyStaticText();
 
       if (!lessonPath) {
         showError('No lesson path specified', 'Add ?path=phases/01-math-foundations/01-linear-algebra-intuition to the URL.');
@@ -1729,7 +1734,50 @@
       buildSidebar();
       initSidebarToggle();
       initScrollProgress();
+      initLanguageToggle();
       fetchLesson(lessonPath);
+
+      function setLessonLang(lang) {
+        lang = window.AIFSI18n.normalizeLang(lang) || window.AIFSI18n.DEFAULT_LANG;
+        if (lessonLang === lang) return;
+        lessonLang = lang;
+        document.documentElement.setAttribute('data-lang', lang);
+        window.AIFSI18n.writeStoredLang(lang);
+        window.AIFSI18n.updateUrlLang(params, lang);
+        window.AIFSI18n.applyStaticText();
+        updateLanguageToggle();
+        showLoading(lang);
+        fetchLesson(lessonPath);
+      }
+
+      function initLanguageToggle() {
+        updateLanguageToggle();
+        var toggle = document.getElementById('languageToggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', function (e) {
+          var btn = e.target.closest('button[data-lang]');
+          if (!btn) return;
+          setLessonLang(btn.getAttribute('data-lang'));
+        });
+      }
+
+      function updateLanguageToggle() {
+        var toggle = document.getElementById('languageToggle');
+        if (!toggle) return;
+        var buttons = toggle.querySelectorAll('button[data-lang]');
+        buttons.forEach(function (btn) {
+          var active = btn.getAttribute('data-lang') === lessonLang;
+          btn.classList.toggle('active', active);
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+      }
+
+      function showLoading(lang) {
+        var label = window.AIFSI18n.t('lesson.loading');
+        var el = document.getElementById('lessonContent');
+        if (!el) return;
+        el.innerHTML = '<div class="lesson-loading" id="lessonLoading"><div class="spinner"></div><div class="lesson-loading-text">' + label + '</div></div>';
+      }
 
       function extractPhaseSlug(phase, index) {
         if (phase.url) {
@@ -1830,17 +1878,25 @@
       }
 
       function fetchLesson(path) {
-        var rawUrl = 'https://raw.githubusercontent.com/rohitg00/ai-engineering-from-scratch/main/' + path + '/docs/en.md';
+        var rawUrls = window.AIFSI18n.lessonMarkdownUrls(path, lessonLang);
+        var fallbackUrls = window.AIFSI18n.lessonMarkdownUrls(path, 'en');
         var quizUrl = 'https://raw.githubusercontent.com/rohitg00/ai-engineering-from-scratch/main/' + path + '/quiz.json';
 
-        fetch(rawUrl)
-          .then(function (res) {
-            if (!res.ok) throw new Error('fetch-failed');
-            return res.text();
+        fetchFirst(rawUrls)
+          .then(function (text) {
+            return { text: text, lang: lessonLang, fallback: false };
           })
-          .then(function (md) {
+          .catch(function (err) {
+            if (lessonLang === 'en') throw err;
+            return fetchFirst(fallbackUrls).then(function (text) {
+              return { text: window.AIFSI18n.localizeLessonMarkdown(text, lessonLang), lang: 'id', fallback: true };
+            });
+          })
+          .then(function (result) {
+            renderedLang = result.lang;
+            usedFallbackLang = result.fallback ? result.lang : null;
             try {
-              renderLesson(md);
+              renderLesson(result.text);
             } catch (err) {
               console.error('renderLesson failed', err);
               showError('Render error', 'Loaded the lesson markdown but failed to render it. Details in the browser console.');
@@ -1860,6 +1916,19 @@
           });
       }
 
+      function fetchFirst(urls) {
+        var chain = Promise.reject(new Error('no-url-tried'));
+        urls.forEach(function (url) {
+          chain = chain.catch(function () {
+            return fetch(url).then(function (res) {
+              if (!res.ok) throw new Error('fetch-failed: ' + url);
+              return res.text();
+            });
+          });
+        });
+        return chain;
+      }
+
       function showError(title, msg) {
         var el = document.getElementById('lessonContent');
         el.innerHTML = '<div class="lesson-error"><h2>' + title + '</h2><p>' + msg + '</p><a href="index.html" class="btn btn-primary">Back to Home</a></div>';
@@ -1868,6 +1937,9 @@
       function renderLesson(md) {
         var el = document.getElementById('lessonContent');
         var html = parseMd(md);
+        if (usedFallbackLang && lessonLang === 'id') {
+          html = '<div class="language-note">' + window.AIFSI18n.fallbackMessage(lessonLang) + '</div>' + html;
+        }
         html += '<div class="ai-panels" id="aiPanels"></div>';
         html = addBottomNav(html);
         el.innerHTML = '<article class="lesson-article">' + html + '</article>';
@@ -2879,7 +2951,7 @@
         ghApiFetch(lessonPath + '/outputs', function (err, data) {
           var el = document.getElementById('outputsContent');
           if (err || !data || !Array.isArray(data) || data.length === 0) {
-            el.innerHTML = '<div class="panel-fallback"><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/' + lessonPath + '" target="_blank" rel="noopener">View lesson on GitHub</a></div>';
+            el.innerHTML = '<div class="panel-fallback">No output files found for this lesson.</div>';
             return;
           }
 
@@ -2902,7 +2974,7 @@
             html += '<div class="output-card-name">' + escapeHtml(file.name) + '</div>';
             html += '<div class="output-desc" id="desc-' + idx + '">Loading description...</div>';
             html += '<div class="output-actions">';
-            html += '<a class="output-btn" href="' + file.html_url + '" target="_blank" rel="noopener">View on GitHub</a>';
+            html += '<a class="output-btn" href="' + file.html_url + '" target="_blank" rel="noopener">View source</a>';
             if (installHint) {
               html += '<button class="output-btn" onclick="var h=document.getElementById(\'' + installId + '\');h.classList.toggle(\'visible\')">Install</button>';
             }
@@ -2937,7 +3009,7 @@
         ghApiFetch(lessonPath + '/code', function (err, data) {
           var el = document.getElementById('codeContent');
           if (err || !data || !Array.isArray(data) || data.length === 0) {
-            el.innerHTML = '<div class="panel-fallback"><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/' + lessonPath + '" target="_blank" rel="noopener">View lesson on GitHub</a></div>';
+            el.innerHTML = '<div class="panel-fallback">No code files found for this lesson.</div>';
             return;
           }
 
@@ -2951,7 +3023,7 @@
             html += '<div class="code-card-size">' + formatSize(file.size) + '</div>';
             html += '<div class="code-card-run">' + escapeHtml(runCmd) + '</div>';
             html += '<div class="code-card-actions">';
-            html += '<a class="code-card-btn" href="' + file.html_url + '" target="_blank" rel="noopener">View on GitHub</a>';
+            html += '<a class="code-card-btn" href="' + file.html_url + '" target="_blank" rel="noopener">View source</a>';
             html += '<button class="code-card-btn code-card-copy" data-command="' + escapeAttr(runCmd) + '">Copy command</button>';
             html += '</div>';
             html += '</div>';
