@@ -17,209 +17,173 @@
   <meta name="twitter:image" content="https://aiengineeringfromscratch.com/og-image.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=20260523-audit-fix">
   <style>
-    .manual-masthead {
-      padding: 96px 0 24px;
+    /* ── HERO ── */
+    .hero {
+      padding: 112px 0 56px;
       border-bottom: 1px solid var(--rule-soft);
     }
 
-    .manual-meta-row {
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 6.4rem);
+      line-height: 0.94;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin: 0 0 28px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--blueprint);
+    }
+
+    .hero-desc {
+      max-width: 600px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin-bottom: 36px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--blueprint);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--blueprint);
+      transition: background 0.15s, color 0.15s;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--rule-soft);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--blueprint);
+      color: var(--blueprint);
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      padding: 36px 0;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .stat-item {
+      padding: 20px 0;
+      border-right: 1px solid var(--rule-soft);
+    }
+
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--blueprint);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    /* ── PREFACE (single column, clean) ── */
+    .preface {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      max-width: 720px;
+    }
+
+    .preface-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin-bottom: 16px;
+    }
+
+    .preface-body {
+      font-size: 1rem;
+      line-height: 1.72;
+      color: var(--ink-soft);
+    }
+
+    .preface-body p {
+      margin-bottom: 1em;
+    }
+
+    /* keep hidden legacy vars for old HTML */
+    .manual-masthead, .manual-meta-row, .manual-title,
+    .manual-tagline, .manual-attribution,
+    .preface-grid, .figure-demo { display: none !important; }
+
+    /* ── TOC ── */
+    .toc {
+      padding: 56px 0 80px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .toc-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       gap: 16px;
       flex-wrap: wrap;
       margin-bottom: 32px;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ink-mute);
-    }
-
-    .manual-meta-row .right {
-      color: var(--blueprint);
-    }
-
-    .manual-title {
-      display: block;
-      font-family: var(--font-display);
-      font-size: clamp(3.2rem, 11vw, 8rem);
-      line-height: 0.86;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-    }
-
-    .manual-tagline {
-      max-width: 720px;
-      margin: 28px 0 8px;
-      font-family: var(--font-body);
-      font-size: clamp(1.05rem, 1.7vw, 1.25rem);
-      line-height: 1.55;
-      color: var(--ink);
-    }
-
-    .manual-attribution {
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--ink-soft);
-      font-style: italic;
-    }
-
-
-    .preface {
-      padding: 48px 0 32px;
-      border-bottom: 1px solid var(--rule-soft);
-    }
-
-    .preface-grid {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 48px;
-    }
-
-    .preface-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-    }
-
-    .preface-body {
-      column-count: 2;
-      column-gap: 48px;
-      column-rule: 1px solid var(--rule-soft);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.7;
-      text-align: justify;
-      hyphens: auto;
-    }
-
-    .preface-body p {
-      margin-bottom: 1em;
-      break-inside: avoid-column;
-    }
-
-    .preface-body p:first-of-type::first-letter {
-      font-family: var(--font-display);
-      float: left;
-      font-size: 4.4rem;
-      line-height: 0.85;
-      padding: 0.06em 0.14em 0 0;
-      color: var(--blueprint);
-    }
-
-    .figure-demo {
-      padding: 24px 0 0;
-      border-bottom: 1px solid var(--rule-soft);
-    }
-
-    .figure-demo-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-      margin-bottom: 6px;
-    }
-
-    .figure-demo-caption {
-      max-width: 640px;
-      font-family: var(--font-body);
-      font-size: 0.96rem;
-      line-height: 1.5;
-      color: var(--ink-soft);
-      margin-bottom: 0;
-    }
-
-    .figure-demo-svg {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    .figure-demo-svg svg {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      .figure-demo { padding: 16px 0 0; }
-    }
-
-    .stat-block {
-      padding: 32px 0 40px;
-      border-bottom: 1px solid var(--rule-soft);
-    }
-
-    .stat-block-title {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-      margin-bottom: 24px;
-    }
-
-    .stat-rows {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      max-width: 760px;
-      font-family: var(--font-mono);
-      font-size: 0.92rem;
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: 200px minmax(0, 360px) 110px;
-      align-items: center;
-      gap: 16px;
-      padding: 4px 0;
-    }
-
-    .stat-row-label {
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-    }
-
-    .stat-row-bar {
-      position: relative;
-      height: 14px;
-      background: var(--rule-soft);
-      overflow: hidden;
-      font-size: 0;
-      line-height: 0;
-      text-indent: -9999px;
-    }
-
-    .stat-row-bar::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      width: var(--bar-pct, 0%);
-      background: var(--blueprint);
-      transition: width 0.6s ease;
-    }
-
-    .stat-row-value {
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-      color: var(--ink);
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-
-    .toc {
-      padding: 56px 0 80px;
-      border-bottom: 1px solid var(--rule-soft);
     }
 
     .toc-title {
@@ -228,14 +192,14 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--blueprint);
-      margin-bottom: 8px;
     }
 
     .toc-subtitle {
       font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--ink-soft);
-      margin-bottom: 32px;
+      font-size: 0.88rem;
+      color: var(--ink-mute);
+      max-width: 480px;
+      text-align: right;
     }
 
     .toc-list {
@@ -247,13 +211,13 @@
 
     .toc-row {
       display: grid;
-      grid-template-columns: 56px 1fr auto auto;
-      align-items: baseline;
-      padding: 14px 0;
-      gap: 16px;
+      grid-template-columns: 52px 1fr auto auto;
+      align-items: center;
+      padding: 16px 0;
+      gap: 20px;
       border-bottom: 1px solid var(--rule-soft);
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.12s;
     }
 
     .toc-row:hover {
@@ -262,45 +226,39 @@
 
     .toc-num {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
       color: var(--blueprint);
     }
 
     .toc-name {
       font-family: var(--font-display);
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
       color: var(--ink);
-      line-height: 1.05;
+      line-height: 1.2;
     }
 
-    .toc-leader {
-      flex: 1;
-      border-bottom: 1px dotted var(--rule-soft);
-      margin: 0 12px;
-      transform: translateY(-4px);
-    }
+    .toc-leader { display: none; }
 
     .toc-meta {
       font-family: var(--font-mono);
-      font-size: 0.74rem;
-      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
       color: var(--ink-mute);
       font-variant-numeric: tabular-nums;
-      min-width: 80px;
+      min-width: 72px;
       text-align: right;
     }
 
     .toc-status {
-      width: 12px;
-      height: 12px;
-      border: 1px solid var(--ink);
+      width: 10px;
+      height: 10px;
+      border: 1px solid var(--ink-mute);
       flex-shrink: 0;
-      margin-right: 6px;
       display: inline-block;
       vertical-align: middle;
+      margin-right: 4px;
     }
 
     .toc-status.complete {
@@ -320,55 +278,50 @@
     }
 
     .legend {
-      padding: 32px 0 72px;
+      padding: 20px 0 0;
       display: flex;
-      gap: 28px;
+      gap: 24px;
       flex-wrap: wrap;
       align-items: center;
       font-family: var(--font-mono);
-      font-size: 0.74rem;
+      font-size: 0.7rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--ink-soft);
+      color: var(--ink-mute);
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
+    /* ── COLOPHON ── */
     .colophon {
-      padding: 48px 0;
-      border-top: 1px solid var(--rule-soft);
-    }
-
-    .colophon-grid {
-      display: grid;
-      grid-template-columns: 200px minmax(0, 1fr);
-      gap: 48px;
-      font-family: var(--font-body);
-      font-size: 0.96rem;
-      color: var(--ink-soft);
-    }
-
-    .colophon-grid > div {
-      min-width: 0;
+      padding: 48px 0 64px;
     }
 
     .colophon-eyebrow {
       font-family: var(--font-mono);
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--blueprint);
+      margin-bottom: 12px;
+    }
+
+    .colophon-body {
+      max-width: 560px;
+      font-size: 0.96rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin-bottom: 20px;
     }
 
     .colophon-cmd {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 12px;
-      margin-top: 16px;
       padding: 10px 16px;
       background: var(--code-bg);
       border: 1px solid var(--rule-soft);
@@ -380,164 +333,44 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .colophon-cmd code {
-      white-space: nowrap;
-    }
-
+    .colophon-cmd code { white-space: nowrap; }
     .colophon-cmd .copy-btn {
       flex-shrink: 0;
-      position: sticky;
-      right: 0;
       background: var(--code-bg);
       padding-left: 8px;
     }
 
+    /* legacy hidden */
+    .stat-block { display: none !important; }
+    .colophon-grid { display: contents; }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .manual-masthead { padding: 80px 0 16px; }
-      .preface { padding: 32px 0; }
-      .stat-block { padding: 32px 0; }
-      .toc { padding: 32px 0 40px; }
-      .colophon { padding: 32px 0; }
-
-      .manual-meta-row { margin-bottom: 20px; }
-      .manual-tagline { margin: 20px 0 6px; font-size: 1rem; }
-      .manual-attribution { font-size: 0.9rem; }
-
-      .preface-grid,
-      .colophon-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .preface-body {
-        column-count: 1;
-        font-size: 0.98rem;
-        line-height: 1.65;
-        text-align: left;
-      }
-
-      .preface-body p:first-of-type::first-letter {
-        font-size: 3.2rem;
-      }
-
-      .stat-rows { gap: 8px; }
-      .stat-row {
-        grid-template-columns: 160px minmax(0, 1fr) 92px;
-        gap: 12px;
-        font-size: 0.82rem;
-      }
-      .stat-block-title,
-      .toc-title { margin-bottom: 16px; }
-      .toc-subtitle { margin-bottom: 20px; }
-
-      .toc-row {
-        grid-template-columns: 36px 1fr auto;
-        padding: 11px 0;
-      }
-
-      .toc-row .toc-meta + .toc-meta {
-        display: none;
-      }
-
-      .toc-leader {
-        display: none;
-      }
-
-      .toc-name {
-        font-size: 1.1rem;
-      }
-
-      .colophon-cmd {
-        max-width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
+      .hero { padding: 96px 0 40px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--rule-soft); padding-top: 0; }
+      .stat-item:nth-child(4) { padding-top: 0; }
+      .toc-subtitle { display: none; }
+      .toc-row { grid-template-columns: 40px 1fr auto; }
+      .toc-row .toc-meta:last-child { display: none; }
     }
 
-    @media (max-width: 480px) {
-      .manual-masthead { padding: 72px 0 12px; }
-      .preface { padding: 24px 0; }
-      .stat-block { padding: 24px 0; }
-      .toc { padding: 24px 0 32px; }
-      .colophon { padding: 24px 0; }
-
-      .manual-title {
-        font-size: clamp(2.4rem, 14vw, 3.6rem);
-        line-height: 0.92;
-      }
-
-      .manual-meta-row {
-        font-size: 0.6rem;
-        letter-spacing: 0.12em;
-        margin-bottom: 16px;
-        gap: 8px;
-      }
-
-      .manual-tagline {
-        font-size: 0.96rem;
-        margin: 16px 0 4px;
-      }
-
-      .ascii-rule {
-        margin: 16px 0;
-      }
-
-      .preface-eyebrow,
-      .stat-block-title,
-      .toc-title,
-      .colophon-eyebrow { font-size: 0.7rem; }
-
-      .preface-body {
-        font-size: 0.94rem;
-        line-height: 1.6;
-        text-align: left;
-      }
-
-      .preface-body p:first-of-type::first-letter {
-        font-size: 2.8rem;
-        padding: 0.04em 0.1em 0 0;
-      }
-
-      .stat-row {
-        grid-template-columns: 1fr;
-        gap: 2px;
-        padding: 6px 0;
-      }
-
-      .stat-row-bar {
-        order: 3;
-      }
-
-      .stat-row-value {
-        order: 2;
-        text-align: left;
-      }
-
-      .toc-row {
-        grid-template-columns: 30px 1fr auto;
-        gap: 8px;
-        padding: 10px 0;
-      }
-
-      .toc-name {
-        font-size: 0.96rem;
-        white-space: normal;
-      }
-
-      .toc-num {
-        font-size: 0.7rem;
-      }
+    @media (max-width: 580px) {
+      .hero { padding: 80px 0 32px; }
+      .hero-desc { font-size: 1rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
+      .stat-item { border: none; border-bottom: 1px solid var(--rule-soft); padding: 16px 0; }
+      .toc-row { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 12px 0; }
+      .toc-name { font-size: 1rem; }
     }
 
-
-    /* Figure card (makingsoftware aesthetic) */
+    /* Figure card */
     .figure-card {
       border: 1px solid var(--rule-soft);
       background: var(--bg);
       padding: 0;
       margin: 24px 0 36px;
-      background-image: radial-gradient(circle at 4px 4px, rgba(0,0,0,0.05) 1px, transparent 1.5px);
-      background-size: 16px 16px;
     }
     .figure-head {
       display: flex;
@@ -552,10 +385,7 @@
     }
     .figure-head .left { color: var(--blueprint); }
     .figure-head .right { color: var(--ink-mute); }
-    .figure-body {
-      padding: 32px 24px;
-      overflow-x: auto;
-    }
+    .figure-body { padding: 32px 24px; overflow-x: auto; }
     .figure-body svg { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; color: var(--blueprint); }
     .figure-foot {
       padding: 14px 24px;
@@ -601,58 +431,56 @@
 
   <main>
 
-    <section class="manual-masthead container">
-      <div class="manual-meta-row">
-        <span data-i18n="home.meta.left">FIG_000 &middot; curriculum v1.0 · 2026</span>
-        <span class="right" data-i18n="home.meta.right">AI Engineering</span>
+    <!-- HERO -->
+    <section class="hero container">
+      <p class="hero-eyebrow" data-i18n="home.meta.left">Curriculum v1.0 &middot; 2026</p>
+      <h1 class="hero-title">AI Engineering<br><em>from Scratch</em></h1>
+      <p class="hero-desc reveal" data-i18n="home.tagline">416 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported.</p>
+      <div class="hero-cta">
+        <a href="#contents" class="btn-primary" data-i18n="home.cta.start">Start Learning</a>
+        <a href="catalog.html" class="btn-ghost" data-i18n="home.cta.catalog">Browse Catalog</a>
       </div>
-      <h1 class="manual-title">AI Engineering<br>from Scratch</h1>
-      <p class="manual-tagline reveal" data-i18n="home.tagline">416 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported.</p>
-      <p class="manual-attribution reveal" style="--stagger-delay: 80ms;" data-i18n="home.attribution">Maintenance by community. Run on your own machine.</p>
-      <div class="ascii-rule" style="margin-top:48px;"></div>
     </section>
 
+    <!-- STATS STRIP -->
+    <section class="stats-strip">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" data-stat="complete-count">0</div>
+            <div class="stat-label" data-i18n="home.progress.finished">Finished Lessons</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">20</div>
+            <div class="stat-label" data-i18n="home.progress.phases">Phases</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4</div>
+            <div class="stat-label" data-i18n="home.progress.languages">Languages</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-stat="glossary-count">···</div>
+            <div class="stat-label" data-i18n="home.progress.glossary">Glossary Terms</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREFACE -->
     <section class="preface container">
-      <div class="preface-grid">
-        <div class="preface-eyebrow reveal reveal--left" data-i18n="home.how.title">How this works</div>
-        <div class="preface-body reveal" style="--stagger-delay: 120ms;">
-          <p data-i18n="home.how.p1">Most AI material teaches in scattered pieces. A paper here, a fine-tuning post there, a flashy agent demo somewhere else. The pieces rarely line up. You ship a chatbot but can't explain its loss curve. You hook a function to an agent but can't say what attention does inside the model that's calling it.</p>
-          <p data-i18n="home.how.p2">This curriculum is the spine. 20 phases, 416 lessons, four languages: Python, TypeScript, Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time PyTorch shows up, you already know what it's doing under the hood.</p>
-          <p data-i18n="home.how.p3">Each lesson runs the same loop: read the problem, derive the math, write the code, run the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding. Free and built to run on your own laptop.</p>
-        </div>
+      <p class="preface-eyebrow" data-i18n="home.how.title">How this works</p>
+      <div class="preface-body reveal">
+        <p data-i18n="home.how.p2">This curriculum is the spine. 20 phases, 416 lessons, four languages: Python, TypeScript, Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time PyTorch shows up, you already know what it's doing under the hood.</p>
+        <p data-i18n="home.how.p3">Each lesson runs the same loop: read the problem, derive the math, write the code, run the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding. Free and built to run on your own laptop.</p>
       </div>
     </section>
 
-
-    <section class="stat-block container">
-      <div class="stat-block-title reveal reveal--left" data-i18n="home.progress.title">Current Progress</div>
-      <div class="stat-rows reveal" style="--stagger-delay: 100ms;" id="statRows">
-        <div class="stat-row">
-          <span class="stat-row-label" data-i18n="home.progress.finished">Finished Lessons</span>
-          <span class="stat-row-bar" data-bar="complete" style="--bar-pct:0%;" aria-hidden="true">bar</span>
-          <span class="stat-row-value" data-stat="complete-frac">0 / 0</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-row-label" data-i18n="home.progress.phases">Phases</span>
-          <span class="stat-row-bar" data-bar="phases" style="--bar-pct:0%;" aria-hidden="true">bar</span>
-          <span class="stat-row-value" data-stat="phases-frac">0 / 0</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-row-label" data-i18n="home.progress.languages">Languages</span>
-          <span class="stat-row-bar" data-bar="languages" style="--bar-pct:100%;" aria-hidden="true">bar</span>
-          <span class="stat-row-value">4</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-row-label" data-i18n="home.progress.glossary">Glossary Terms</span>
-          <span class="stat-row-bar" data-bar="glossary" style="--bar-pct:100%;" aria-hidden="true">bar</span>
-          <span class="stat-row-value" data-stat="glossary-count">···</span>
-        </div>
-      </div>
-    </section>
-
+    <!-- CURRICULUM TOC -->
     <section class="toc container" id="contents">
-      <div class="toc-title reveal reveal--left" data-i18n="home.toc.title">Curriculum · 20 phases · 416 lessons</div>
-      <div class="toc-subtitle reveal" style="--stagger-delay: 80ms;" data-i18n="home.toc.subtitle">Tap a phase to expand its lessons. Each one ships when its math, code, and test are all written.</div>
+      <div class="toc-header">
+        <span class="toc-title reveal reveal--left" data-i18n="home.toc.title">Curriculum &middot; 20 phases &middot; 416 lessons</span>
+        <span class="toc-subtitle reveal" data-i18n="home.toc.subtitle">Tap a phase to expand its lessons. Each one ships when its math, code, and test are all written.</span>
+      </div>
       <div class="toc-list" id="phasesGrid"></div>
       <div class="legend">
         <span class="legend-item"><span class="toc-status complete"></span> <span data-i18n="home.legend.complete">Complete</span></span>
@@ -661,6 +489,7 @@
       </div>
     </section>
 
+    <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal" id="modal">
         <button class="modal-close" id="modalClose" type="button">×</button>
@@ -679,17 +508,13 @@
       </div>
     </div>
 
-
+    <!-- COLOPHON -->
     <section class="colophon container">
-      <div class="colophon-grid">
-        <div class="colophon-eyebrow reveal reveal--left" data-i18n="home.colophon.title">Run Locally</div>
-        <div class="reveal" style="--stagger-delay: 80ms;">
-          <p data-i18n="home.colophon.body">No paywall, no signup, no account. Every lesson has runnable code in Python, TypeScript, Rust, or Julia. Clone the repo and serve locally in one command.</p>
-          <div class="colophon-cmd">
-            <code id="cloneCmd">python3 -m http.server 8787</code>
-            <button class="copy-btn" id="copyBtn" aria-label="Copy command" type="button">cp</button>
-          </div>
-        </div>
+      <p class="colophon-eyebrow" data-i18n="home.colophon.title">Run Locally</p>
+      <p class="colophon-body reveal" data-i18n="home.colophon.body">No paywall, no signup, no account. Every lesson has runnable code in Python, TypeScript, Rust, or Julia. Clone the repo and serve locally in one command.</p>
+      <div class="colophon-cmd reveal" style="--stagger-delay: 80ms;">
+        <code id="cloneCmd">python3 -m http.server 8787</code>
+        <button class="copy-btn" id="copyBtn" aria-label="Copy command" type="button">cp</button>
       </div>
     </section>
 

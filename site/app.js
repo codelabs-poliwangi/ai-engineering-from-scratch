@@ -96,6 +96,7 @@
     var glossaryCount = (typeof GLOSSARY !== 'undefined') ? GLOSSARY.length : 0;
 
     setText('[data-stat="complete-frac"]', stats.complete + ' / ' + stats.lessons);
+    setText('[data-stat="complete-count"]', String(stats.complete));
     setText('[data-stat="phases-frac"]', stats.completePhases + ' / ' + stats.phases);
     setText('[data-stat="glossary-count"]', String(glossaryCount));
     setBar('[data-bar="complete"]', pct);
