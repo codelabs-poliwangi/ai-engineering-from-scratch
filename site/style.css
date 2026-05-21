@@ -216,9 +216,7 @@ p.dropcap::first-letter {
   right: 0;
   z-index: 100;
   background: var(--header-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--rule-soft);
+  border-bottom: 1.5px solid var(--rule-soft);
 }
 
 .header-inner {
@@ -344,14 +342,14 @@ p.dropcap::first-letter {
   padding: 3px;
   background: var(--bg-surface);
   border: 1px solid var(--rule-soft);
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 .language-toggle button {
   min-width: 34px;
   height: 28px;
   border: none;
-  border-radius: 5px;
+  border-radius: 1px;
   background: transparent;
   color: var(--ink-soft);
   font-family: var(--font-mono);
@@ -1527,6 +1525,23 @@ body[data-palette-open] {
   line-height: 1.28 !important;
 }
 
+.toc-start-badge {
+  display: inline-block;
+  margin-left: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blueprint);
+  opacity: 0.85;
+  vertical-align: middle;
+}
+
+.toc-row--start .toc-name {
+  color: var(--ink) !important;
+}
+
 .toc-meta,
 .label,
 .fig-label,
@@ -1629,7 +1644,7 @@ p.dropcap::first-letter {
 .lesson-article .motto,
 .quiz-explanation,
 .quiz-score {
-  border-left-width: 4px !important;
+  border: 1px solid var(--rule-soft) !important;
   border-radius: 8px !important;
   background: var(--blueprint-tint) !important;
 }

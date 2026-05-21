@@ -419,7 +419,7 @@
         <button type="button" data-lang="id" aria-pressed="false">ID</button>
       </div>
       <button class="theme-toggle" id="themeToggle" data-i18n-aria="theme.aria" aria-label="Toggle theme">
-        <span class="theme-icon" id="themeIcon">N</span>
+        <span class="theme-icon" id="themeIcon">☾</span>
       </button>
     </div>
   </header>
@@ -486,7 +486,7 @@
     function updateIcon() {
       var icon = document.getElementById('themeIcon');
       if (!icon) return;
-      icon.textContent = root.getAttribute('data-theme') === 'light' ? 'N' : 'D';
+      icon.textContent = root.getAttribute('data-theme') === 'light' ? '☾' : '☀';
     }
 
     updateIcon();

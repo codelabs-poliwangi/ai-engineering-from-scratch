@@ -212,7 +212,7 @@
     el.id = PALETTE_ID;
     el.setAttribute('role', 'dialog');
     el.setAttribute('aria-modal', 'true');
-    el.setAttribute('aria-label', 'Search lessons and glossary');
+    el.setAttribute('aria-label', t('cmd.aria', 'Search lessons and glossary'));
 
     el.innerHTML =
       '<div class="cp-backdrop" id="cpBackdrop"></div>' +
@@ -225,27 +225,27 @@
             '<line x1="21" y1="21" x2="16.65" y2="16.65"/>' +
           '</svg>' +
           '<input class="cp-input" id="cpInput" type="search"' +
-          ' placeholder="Search lessons and glossary…"' +
+          ' placeholder="' + escHtml(t('cmd.placeholder', 'Search lessons and glossary…')) + '"' +
           ' autocomplete="off" autocorrect="off"' +
           ' autocapitalize="off" spellcheck="false"' +
-          ' aria-label="Search" aria-autocomplete="list"' +
+          ' aria-label="' + escHtml(t('cmd.search', 'Search')) + '" aria-autocomplete="list"' +
           ' aria-controls="cpResults">' +
           '<kbd class="cp-kbd-esc" id="cpKbdEsc">Esc</kbd>' +
         '</div>' +
         '<ul class="cp-results" id="cpResults"' +
-        ' role="listbox" aria-label="Search results"></ul>' +
+        ' role="listbox" aria-label="' + escHtml(t('cmd.results', 'Search results')) + '"></ul>' +
         '<div class="cp-footer">' +
           '<span class="cp-footer-group">' +
             '<kbd>↑</kbd><kbd>↓</kbd>' +
-            '<span class="cp-footer-label">navigate</span>' +
+            '<span class="cp-footer-label">' + escHtml(t('cmd.navigate', 'navigate')) + '</span>' +
           '</span>' +
           '<span class="cp-footer-group">' +
             '<kbd>↵</kbd>' +
-            '<span class="cp-footer-label">open</span>' +
+            '<span class="cp-footer-label">' + escHtml(t('cmd.open', 'open')) + '</span>' +
           '</span>' +
           '<span class="cp-footer-group">' +
             '<kbd>Esc</kbd>' +
-            '<span class="cp-footer-label">close</span>' +
+            '<span class="cp-footer-label">' + escHtml(t('cmd.close', 'close')) + '</span>' +
           '</span>' +
           '<span class="cp-footer-shortcut">' + shortcutLabel + '</span>' +
         '</div>' +
@@ -326,7 +326,7 @@
     if (!query) {
       list.innerHTML =
         '<li class="cp-empty" role="option" aria-disabled="true">' +
-        'Type to search 400+ lessons and glossary terms' +
+        escHtml(t('cmd.emptyPrompt', 'Type to search 400+ lessons and glossary terms')) +
         '</li>';
       _activeIdx = -1;
       return;
@@ -335,7 +335,7 @@
     if (results.length === 0) {
       list.innerHTML =
         '<li class="cp-empty" role="option" aria-disabled="true">' +
-        'No results for <em>' + escHtml(query) + '</em>' +
+        escHtml(t('cmd.noResults', 'No results for')) + ' <em>' + escHtml(query) + '</em>' +
         '</li>';
       _activeIdx = -1;
       return;
@@ -351,14 +351,14 @@
       if (r.kind === 'lesson') {
         // Prefer the in-site reader; fall back to GitHub URL
         dest = r.lessonPath
-          ? 'lesson.html?path=' + encodeURIComponent(r.lessonPath)
+          ? 'lesson.html?path=' + encodeURIComponent(r.lessonPath) + '&lang=' + encodeURIComponent(currentLang())
           : r.url;
-        chip = 'Phase ' + String(r.phaseId).padStart(2, '0');
+        chip = t('catalog.phase', 'Phase') + ' ' + String(r.phaseId).padStart(2, '0');
       } else {
         // Deep-link: pre-populate glossary search with the exact term name
         // so the user lands directly on the definition, not the full list.
         dest      = 'glossary.html?q=' + encodeURIComponent(r.name);
-        chip      = 'Glossary';
+        chip      = t('nav.glossary', 'Glossary');
         chipClass += ' cp-item-chip--alt';
       }
 
@@ -475,6 +475,14 @@
     if (!href) return;
     close();
     window.location.href = href;
+  }
+
+  function currentLang() {
+    return window.AIFSI18n ? window.AIFSI18n.currentLang() : 'en';
+  }
+
+  function t(key, fallback) {
+    return window.AIFSI18n ? window.AIFSI18n.t(key) : fallback;
   }
 
   // ── Global keyboard shortcut (Cmd/Ctrl+K) ────────────────────────────
