@@ -18,50 +18,162 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260523-audit-fix">
+  <link rel="stylesheet" href="style.css?v=20260601-impeccable">
+  <script>(function(){var r=document.documentElement,s=localStorage.getItem('theme');if(s){r.setAttribute('data-theme',s);}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){r.setAttribute('data-theme','dark');}else{r.setAttribute('data-theme','light');}})();</script>
   <style>
-    /* ── HERO ── */
-    .hero {
-      padding: 112px 0 56px;
-      border-bottom: 1px solid var(--rule-soft);
+    /* ── MASTHEAD ── */
+    .masthead {
+      padding: clamp(80px, 12vh, 120px) clamp(32px, 6vw, 80px) 0;
     }
 
-    .hero-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-      margin-bottom: 24px;
+    .masthead-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 32px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--blueprint);
+      flex-wrap: wrap;
     }
 
-    .hero-title {
+    .masthead-title {
       font-family: var(--font-display);
-      font-size: clamp(2.8rem, 8vw, 6.4rem);
-      line-height: 0.94;
-      letter-spacing: -0.01em;
+      font-size: clamp(3.2rem, 9vw, 6.8rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
       color: var(--ink);
-      margin: 0 0 28px;
+      margin: 0;
+      font-weight: 400;
     }
 
-    .hero-title em {
-      font-style: normal;
+    .masthead-title em {
+      font-style: italic;
       color: var(--blueprint);
     }
 
-    .hero-desc {
-      max-width: 600px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: var(--ink-soft);
-      margin-bottom: 36px;
+    .masthead-meta {
+      list-style: none;
+      padding: 0 0 6px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      flex-shrink: 0;
     }
 
-    .hero-cta {
+    .masthead-meta li {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    /* ── SPEC BAR ── */
+    .spec-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 14px clamp(32px, 6vw, 80px);
+      border-bottom: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-mute);
+    }
+
+    .spec-item { white-space: nowrap; }
+
+    .spec-sep {
+      opacity: 0.4;
+      user-select: none;
+    }
+
+    /* ── BODY SPLIT (2-column editorial) ── */
+    .body-split {
+      display: grid;
+      grid-template-columns: clamp(260px, 32%, 380px) 1fr;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(32px, 6vw, 80px);
+      align-items: start;
+    }
+
+    .body-about {
+      padding: 52px clamp(24px, 3vw, 52px) 80px 0;
+      border-right: 1px solid var(--rule-soft);
+    }
+
+    .body-toc {
+      padding: 52px 0 80px clamp(24px, 3vw, 52px);
+    }
+
+    .about-preface {
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin-bottom: 32px;
+    }
+
+    .about-preface p { margin: 0 0 1em; }
+    .about-preface p:last-child { margin-bottom: 0; }
+
+    .about-cta {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      align-items: center;
+      margin-bottom: 44px;
+    }
+
+    .about-run-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin: 0 0 10px;
+    }
+
+    .about-run-cmd {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--rule-soft);
+      background: var(--code-bg);
+      overflow: hidden;
+    }
+
+    .about-run-cmd code {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 10px 14px;
+      flex: 1;
+      color: var(--ink);
+      background: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .about-run-cmd .copy-btn {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 10px 12px;
+      background: none;
+      border: none;
+      border-left: 1px solid var(--rule-soft);
+      color: var(--blueprint);
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .about-run-cmd .copy-btn:hover {
+      background: var(--blueprint-tint);
     }
 
     .btn-primary {
@@ -103,80 +215,13 @@
       color: var(--blueprint);
     }
 
-    /* ── STATS STRIP ── */
-    .stats-strip {
-      padding: 36px 0;
-      border-bottom: 1px solid var(--rule-soft);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-
-    .stat-item {
-      padding: 20px 0;
-      border-right: 1px solid var(--rule-soft);
-    }
-
-    .stat-item:first-child { padding-left: 0; }
-    .stat-item:last-child { border-right: none; }
-
-    .stat-number {
-      font-family: var(--font-mono);
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      color: var(--blueprint);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .stat-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--ink-mute);
-    }
-
-    /* ── PREFACE (single column, clean) ── */
-    .preface {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--rule-soft);
-      max-width: 720px;
-    }
-
-    .preface-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-      margin-bottom: 16px;
-    }
-
-    .preface-body {
-      font-size: 1rem;
-      line-height: 1.72;
-      color: var(--ink-soft);
-    }
-
-    .preface-body p {
-      margin-bottom: 1em;
-    }
-
-    /* keep hidden legacy vars for old HTML */
+    /* legacy hidden */
     .manual-masthead, .manual-meta-row, .manual-title,
     .manual-tagline, .manual-attribution,
-    .preface-grid, .figure-demo { display: none !important; }
+    .preface-grid, .figure-demo,
+    .stat-block { display: none !important; }
 
-    /* ── TOC ── */
-    .toc {
-      padding: 56px 0 80px;
-      border-bottom: 1px solid var(--rule-soft);
-    }
-
+    /* ── TOC header (inside body-toc) ── */
     .toc-header {
       display: flex;
       justify-content: space-between;
@@ -296,71 +341,32 @@
       gap: 6px;
     }
 
-    /* ── COLOPHON ── */
-    .colophon {
-      padding: 48px 0 64px;
-    }
-
-    .colophon-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blueprint);
-      margin-bottom: 12px;
-    }
-
-    .colophon-body {
-      max-width: 560px;
-      font-size: 0.96rem;
-      line-height: 1.6;
-      color: var(--ink-soft);
-      margin-bottom: 20px;
-    }
-
-    .colophon-cmd {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 16px;
-      background: var(--code-bg);
-      border: 1px solid var(--rule-soft);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--blueprint);
-      max-width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .colophon-cmd code { white-space: nowrap; }
-    .colophon-cmd .copy-btn {
-      flex-shrink: 0;
-      background: var(--code-bg);
-      padding-left: 8px;
-    }
-
-    /* legacy hidden */
-    .stat-block { display: none !important; }
-    .colophon-grid { display: contents; }
-
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .hero { padding: 96px 0 40px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-item:nth-child(2) { border-right: none; }
-      .stat-item:nth-child(3) { border-right: 1px solid var(--rule-soft); padding-top: 0; }
-      .stat-item:nth-child(4) { padding-top: 0; }
+    @media (max-width: 860px) {
+      .body-split {
+        grid-template-columns: 1fr;
+        padding: 0 clamp(16px, 4vw, 32px);
+      }
+      .body-about {
+        border-right: none;
+        border-bottom: 1px solid var(--rule-soft);
+        padding-right: 0;
+        padding-bottom: 40px;
+      }
+      .body-toc {
+        padding-left: 0;
+        padding-top: 40px;
+      }
       .toc-subtitle { display: none; }
       .toc-row { grid-template-columns: 40px 1fr auto; }
       .toc-row .toc-meta:last-child { display: none; }
     }
 
-    @media (max-width: 580px) {
-      .hero { padding: 80px 0 32px; }
-      .hero-desc { font-size: 1rem; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
-      .stat-item { border: none; border-bottom: 1px solid var(--rule-soft); padding: 16px 0; }
+    @media (max-width: 540px) {
+      .masthead { padding-left: 20px; padding-right: 20px; }
+      .spec-bar { padding-left: 20px; padding-right: 20px; }
+      .masthead-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .masthead-meta { align-items: flex-start; }
       .toc-row { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 12px 0; }
       .toc-name { font-size: 1rem; }
     }
@@ -431,63 +437,66 @@
 
   <main>
 
-    <!-- HERO -->
-    <section class="hero container">
-      <p class="hero-eyebrow" data-i18n="home.meta.left">Curriculum v1.0 &middot; 2026</p>
-      <h1 class="hero-title">AI Engineering<br><em>from Scratch</em></h1>
-      <p class="hero-desc reveal" data-i18n="home.tagline">416 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported.</p>
-      <div class="hero-cta">
-        <a href="#contents" class="btn-primary" data-i18n="home.cta.start">Start Learning</a>
-        <a href="catalog.html" class="btn-ghost" data-i18n="home.cta.catalog">Browse Catalog</a>
+    <!-- MASTHEAD -->
+    <section class="masthead">
+      <div class="masthead-inner">
+        <h1 class="masthead-title">AI Engineering<br><em>from Scratch</em></h1>
+        <ul class="masthead-meta" aria-label="Course metadata">
+          <li>Curriculum v1.0</li>
+          <li>2026 Edition</li>
+          <li>Free Forever</li>
+        </ul>
       </div>
     </section>
 
-    <!-- STATS STRIP -->
-    <section class="stats-strip">
-      <div class="container">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-number" data-stat="complete-count">0</div>
-            <div class="stat-label" data-i18n="home.progress.finished">Finished Lessons</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">20</div>
-            <div class="stat-label" data-i18n="home.progress.phases">Phases</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">4</div>
-            <div class="stat-label" data-i18n="home.progress.languages">Languages</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number" data-stat="glossary-count">···</div>
-            <div class="stat-label" data-i18n="home.progress.glossary">Glossary Terms</div>
-          </div>
+    <!-- SPEC BAR -->
+    <div class="spec-bar" aria-label="Curriculum statistics">
+      <span class="spec-item"><span data-stat="complete-count">0</span>/416 complete</span>
+      <span class="spec-sep" aria-hidden="true">·</span>
+      <span class="spec-item">20 phases</span>
+      <span class="spec-sep" aria-hidden="true">·</span>
+      <span class="spec-item">416 lessons</span>
+      <span class="spec-sep" aria-hidden="true">·</span>
+      <span class="spec-item">4 languages</span>
+      <span class="spec-sep" aria-hidden="true">·</span>
+      <span class="spec-item"><span data-stat="glossary-count">···</span> terms</span>
+    </div>
+
+    <!-- BODY: 2-column split -->
+    <div class="body-split">
+
+      <!-- LEFT: About -->
+      <aside class="body-about">
+        <div class="about-preface reveal">
+          <p data-i18n="home.how.p2">This curriculum is the spine. 20 phases, 416 lessons, four languages: Python, TypeScript, Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time PyTorch shows up, you already know what it&#8217;s doing under the hood.</p>
+          <p data-i18n="home.how.p3">Each lesson runs the same loop: read the problem, derive the math, write the code, run the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding. Free and built to run on your own laptop.</p>
         </div>
-      </div>
-    </section>
+        <div class="about-cta">
+          <a href="#contents" class="btn-primary" data-i18n="home.cta.start">Start Learning</a>
+          <a href="catalog.html" class="btn-ghost" data-i18n="home.cta.catalog">Browse Catalog</a>
+        </div>
+        <p class="about-run-label" data-i18n="home.colophon.title">Run Locally</p>
+        <div class="about-run-cmd reveal" style="--stagger-delay: 80ms;">
+          <code id="cloneCmd">python3 -m http.server 8787</code>
+          <button class="copy-btn" id="copyBtn" aria-label="Copy command" type="button">cp</button>
+        </div>
+      </aside>
 
-    <!-- PREFACE -->
-    <section class="preface container">
-      <p class="preface-eyebrow" data-i18n="home.how.title">How this works</p>
-      <div class="preface-body reveal">
-        <p data-i18n="home.how.p2">This curriculum is the spine. 20 phases, 416 lessons, four languages: Python, TypeScript, Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time PyTorch shows up, you already know what it's doing under the hood.</p>
-        <p data-i18n="home.how.p3">Each lesson runs the same loop: read the problem, derive the math, write the code, run the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding. Free and built to run on your own laptop.</p>
-      </div>
-    </section>
+      <!-- RIGHT: TOC -->
+      <section class="body-toc" id="contents">
+        <div class="toc-header">
+          <span class="toc-title reveal reveal--left" data-i18n="home.toc.title">Curriculum &middot; 20 phases &middot; 416 lessons</span>
+          <span class="toc-subtitle reveal" data-i18n="home.toc.subtitle">Tap a phase to expand its lessons. Each one ships when its math, code, and test are all written.</span>
+        </div>
+        <div class="toc-list" id="phasesGrid"></div>
+        <div class="legend">
+          <span class="legend-item"><span class="toc-status complete"></span> <span data-i18n="home.legend.complete">Complete</span></span>
+          <span class="legend-item"><span class="toc-status in-progress"></span> <span data-i18n="home.legend.progress">In progress</span></span>
+          <span class="legend-item"><span class="toc-status planned"></span> <span data-i18n="home.legend.planned">Planned</span></span>
+        </div>
+      </section>
 
-    <!-- CURRICULUM TOC -->
-    <section class="toc container" id="contents">
-      <div class="toc-header">
-        <span class="toc-title reveal reveal--left" data-i18n="home.toc.title">Curriculum &middot; 20 phases &middot; 416 lessons</span>
-        <span class="toc-subtitle reveal" data-i18n="home.toc.subtitle">Tap a phase to expand its lessons. Each one ships when its math, code, and test are all written.</span>
-      </div>
-      <div class="toc-list" id="phasesGrid"></div>
-      <div class="legend">
-        <span class="legend-item"><span class="toc-status complete"></span> <span data-i18n="home.legend.complete">Complete</span></span>
-        <span class="legend-item"><span class="toc-status in-progress"></span> <span data-i18n="home.legend.progress">In progress</span></span>
-        <span class="legend-item"><span class="toc-status planned"></span> <span data-i18n="home.legend.planned">Planned</span></span>
-      </div>
-    </section>
+    </div>
 
     <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
@@ -508,16 +517,6 @@
       </div>
     </div>
 
-    <!-- COLOPHON -->
-    <section class="colophon container">
-      <p class="colophon-eyebrow" data-i18n="home.colophon.title">Run Locally</p>
-      <p class="colophon-body reveal" data-i18n="home.colophon.body">No paywall, no signup, no account. Every lesson has runnable code in Python, TypeScript, Rust, or Julia. Clone the repo and serve locally in one command.</p>
-      <div class="colophon-cmd reveal" style="--stagger-delay: 80ms;">
-        <code id="cloneCmd">python3 -m http.server 8787</code>
-        <button class="copy-btn" id="copyBtn" aria-label="Copy command" type="button">cp</button>
-      </div>
-    </section>
-
   </main>
 
   <footer class="site-footer">
@@ -531,12 +530,12 @@
     </div>
   </footer>
 
-  <script src="data.js?v=20260523-audit-fix"></script>
-  <script src="progress.js?v=20260523-audit-fix"></script>
-  <script src="i18n.js?v=20260522-no-autotranslate"></script>
-  <script src="header.js?v=20260523-audit-fix" defer></script>
-  <script src="cmdpalette.js?v=20260523-audit-fix" defer></script>
-  <script src="app.js?v=20260523-audit-fix"></script>
+  <script src="data.js?v=20260601-impeccable"></script>
+  <script src="progress.js?v=20260601-impeccable"></script>
+  <script src="i18n.js?v=20260601-impeccable"></script>
+  <script src="header.js?v=20260601-impeccable" defer></script>
+  <script src="cmdpalette.js?v=20260601-impeccable" defer></script>
+  <script src="app.js?v=20260601-impeccable"></script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
 </body>
 </html>
