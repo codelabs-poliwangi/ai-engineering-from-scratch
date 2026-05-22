@@ -211,6 +211,25 @@
         padding: 8px 10px;
       }
     }
+
+    @media (max-width: 480px) {
+      .catalog-header h1 { font-size: 1.5rem; }
+      .catalog-table-wrap { border-left: none; border-right: none; margin: 0 -1rem; }
+    }
+
+    @keyframes skeleton-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .catalog-skeleton-row td {
+      padding: 14px 16px;
+    }
+    .catalog-skeleton-bar {
+      height: 14px;
+      background: var(--border);
+      border-radius: 2px;
+      animation: skeleton-pulse 1.4s ease-in-out infinite;
+    }
   </style>
 </head>
 <body>

@@ -161,6 +161,29 @@
         padding: 18px 16px;
       }
     }
+
+    @media (max-width: 480px) {
+      .glossary-header h1 { font-size: 1.5rem; }
+    }
+
+    @keyframes skeleton-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .glossary-skeleton-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border);
+      padding: 24px;
+    }
+    .glossary-skeleton-bar {
+      height: 14px;
+      background: var(--border);
+      border-radius: 2px;
+      animation: skeleton-pulse 1.4s ease-in-out infinite;
+      margin-bottom: 10px;
+    }
+    .glossary-skeleton-bar.wide { width: 60%; }
+    .glossary-skeleton-bar.narrow { width: 40%; }
   </style>
 </head>
 <body>
