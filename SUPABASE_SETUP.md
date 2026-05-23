@@ -24,9 +24,18 @@ For local development, Supabase URL Configuration must include:
   - `http://localhost:8765/site/profile.html?verified=1&lang=en`
   - `http://localhost:8765/site/profile.html?verified=1&lang=id`
 
-For production, replace the localhost entries with the production domain and
-the same `/site/profile.html` callback path. If the Site URL is still
-`http://localhost:3000`, confirmation links will fall back there.
+For production, Supabase URL Configuration must include:
+
+- Site URL: `https://aiengineer.sepyankristanto.my.id`
+- Redirect URLs:
+  - `https://aiengineer.sepyankristanto.my.id/site/profile.html`
+  - `https://aiengineer.sepyankristanto.my.id/site/profile.html?verified=1&lang=en`
+  - `https://aiengineer.sepyankristanto.my.id/site/profile.html?verified=1&lang=id`
+
+If the Site URL is still `http://localhost:3000`, confirmation links will fall
+back there. The frontend sends `emailRedirectTo` from the current domain, so the
+same code works locally and in production as long as the matching domain is
+allowed in Supabase.
 
 The frontend writes only to these RLS-protected tables:
 
