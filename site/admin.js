@@ -4,6 +4,7 @@
   var totalUsersEl = document.getElementById('totalUsers');
   var activeUsersEl = document.getElementById('activeUsers');
   var completedEl = document.getElementById('completedLessons');
+  var adminLoginLink = document.getElementById('adminLoginLink');
 
   if (!statusEl || !bodyEl) return;
 
@@ -14,13 +15,17 @@
     }
     if (!window.AIFSAuth || !window.AIFSAuth.isConfigured()) {
       statusEl.textContent = 'Admin tools are not available because account login is not ready yet.';
+      if (adminLoginLink) adminLoginLink.hidden = false;
       return;
     }
+    if (adminLoginLink) adminLoginLink.hidden = true;
     window.AIFSAuth.isAdmin().then(function (allowed) {
       if (!allowed) {
-        statusEl.textContent = 'Admin access required.';
+        statusEl.textContent = 'Admin access required. Sign in with an owner or admin account.';
+        if (adminLoginLink) adminLoginLink.hidden = false;
         return;
       }
+      if (adminLoginLink) adminLoginLink.hidden = true;
       statusEl.textContent = 'Loading learner activity...';
       return window.AIFSAuth.listLearners().then(renderLearners);
     }).catch(function (err) {

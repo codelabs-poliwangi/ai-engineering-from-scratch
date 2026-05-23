@@ -187,6 +187,10 @@
       margin-top: 12px;
     }
 
+    .button-row [hidden] {
+      display: none !important;
+    }
+
     @media (max-width: 880px) {
       .profile-top,
       .profile-grid { grid-template-columns: 1fr; }
@@ -254,6 +258,7 @@
             <button class="btn btn-primary" type="button" id="saveProfile" data-i18n="profile.save">Save profile</button>
             <button class="btn btn-secondary" type="button" id="syncNow" data-i18n="profile.sync">Sync now</button>
             <a class="btn btn-secondary" href="admin.html" id="adminLink" data-i18n="profile.admin" hidden>Admin dashboard</a>
+            <a class="btn btn-primary" href="login.html?next=profile.html" id="loginLink" data-i18n="profile.login">Sign in</a>
             <button class="btn btn-secondary" type="button" id="signOut" data-i18n="profile.signout">Sign out</button>
           </div>
           <p class="status-line" id="accountStatus"></p>
@@ -270,6 +275,6 @@
   <script src="auth.js?v=20260523-admin2"></script>
   <script src="access.js?v=20260523-access3"></script>
   <script src="header.js?v=20260523-admin2" defer></script>
-  <script src="profile.js?v=20260523-admin2"></script>
+  <script src="profile.js?v=20260523-admin3"></script>
 </body>
 </html>

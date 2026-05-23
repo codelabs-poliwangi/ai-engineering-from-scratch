@@ -2,6 +2,27 @@
   var accountStatus = document.getElementById('accountStatus');
   var progressStatus = document.getElementById('progressStatus');
   if (!accountStatus || !progressStatus) return;
+  var saveProfileBtn = document.getElementById('saveProfile');
+  var syncNowBtn = document.getElementById('syncNow');
+  var adminLink = document.getElementById('adminLink');
+  var loginLink = document.getElementById('loginLink');
+  var signOutBtn = document.getElementById('signOut');
+  var accountEmail = document.getElementById('accountEmail');
+  var profileName = document.getElementById('profileName');
+
+  function setAccountMode(mode, role) {
+    var signedIn = mode === 'signed-in';
+    if (saveProfileBtn) saveProfileBtn.hidden = !signedIn;
+    if (syncNowBtn) syncNowBtn.hidden = !signedIn;
+    if (signOutBtn) signOutBtn.hidden = !signedIn;
+    if (loginLink) loginLink.hidden = signedIn;
+    if (adminLink) adminLink.hidden = !(signedIn && (role === 'owner' || role === 'admin'));
+    if (profileName) profileName.disabled = !signedIn;
+    if (!signedIn) {
+      if (accountEmail) accountEmail.value = '';
+      if (profileName) profileName.value = '';
+    }
+  }
 
   function renderProgress() {
     var summary = window.AIFSAuth
@@ -27,6 +48,7 @@
   }
 
   function bootAccount() {
+    setAccountMode('signed-out');
     if (!window.AIFSAuth) {
       accountStatus.textContent = label('profile.authLoading', 'Local progress is ready. Cloud sync is still loading.');
       renderProgress();
@@ -40,16 +62,17 @@
     window.AIFSAuth.getUser().then(function (user) {
       if (!user) {
         accountStatus.textContent = label('profile.signedOut', 'Not signed in. Open Login to enable cloud sync.');
+        setAccountMode('signed-out');
         renderProgress();
         return;
       }
-      document.getElementById('accountEmail').value = user.email || '';
+      setAccountMode('signed-in', 'student');
+      if (accountEmail) accountEmail.value = user.email || '';
       accountStatus.textContent = label('profile.loadingRemote', 'Signed in. Loading profile and remote progress...');
       window.AIFSAuth.getProfile().then(function (res) {
         if (res && res.data) {
-          document.getElementById('profileName').value = res.data.full_name || '';
-          var adminLink = document.getElementById('adminLink');
-          if (adminLink) adminLink.hidden = !(res.data.role === 'owner' || res.data.role === 'admin');
+          if (profileName) profileName.value = res.data.full_name || '';
+          setAccountMode('signed-in', res.data.role || 'student');
         }
         return window.AIFSAuth.loadRemoteProgress();
       }).then(function () {
@@ -63,12 +86,12 @@
     });
   }
 
-  document.getElementById('saveProfile').addEventListener('click', function () {
+  saveProfileBtn.addEventListener('click', function () {
     if (!window.AIFSAuth) {
       accountStatus.textContent = label('profile.authLoading', 'Local progress is ready. Cloud sync is still loading.');
       return;
     }
-    var name = document.getElementById('profileName').value.trim();
+    var name = profileName.value.trim();
     accountStatus.textContent = label('profile.saving', 'Saving profile...');
     window.AIFSAuth.upsertProfile(name).then(function (res) {
       if (res && res.error) throw res.error;
@@ -78,7 +101,7 @@
     });
   });
 
-  document.getElementById('syncNow').addEventListener('click', function () {
+  syncNowBtn.addEventListener('click', function () {
     if (!window.AIFSAuth) {
       accountStatus.textContent = label('profile.authLoading', 'Local progress is ready. Cloud sync is still loading.');
       return;
@@ -92,7 +115,7 @@
     });
   });
 
-  document.getElementById('signOut').addEventListener('click', function () {
+  signOutBtn.addEventListener('click', function () {
     if (!window.AIFSAuth) {
       window.location.href = 'login.html';
       return;

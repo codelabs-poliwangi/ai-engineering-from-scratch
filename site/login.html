@@ -234,6 +234,7 @@
       var submitBtn = document.getElementById('submitBtn');
       var status = document.getElementById('authStatus');
       var form = document.getElementById('authForm');
+      var isAdminLogin = new URLSearchParams(window.location.search).get('mode') === 'admin';
 
       function renderMetrics() {
         var s = window.AIFSAuth ? window.AIFSAuth.summarizeProgress() : { completed: 0, visited: 0, answers: 0, correct: 0 };
@@ -244,9 +245,11 @@
 
       function setMode(next) {
         mode = next;
+        if (isAdminLogin) mode = 'signin';
         var signup = mode === 'signup';
         tabSignin.classList.toggle('active', !signup);
         tabSignup.classList.toggle('active', signup);
+        tabSignup.hidden = isAdminLogin;
         nameField.hidden = !signup;
         submitBtn.textContent = signup ? label('auth.signup', 'Create account') : label('auth.signin', 'Sign in');
         status.textContent = '';
