@@ -16,6 +16,18 @@ localStorage. To enable account login, profile data, and cloud progress sync:
    The current project uses a publishable key, so the production UI does not ask
    learners to paste any key.
 
+For local development, Supabase URL Configuration must include:
+
+- Site URL: `http://localhost:8765`
+- Redirect URLs:
+  - `http://localhost:8765/site/profile.html`
+  - `http://localhost:8765/site/profile.html?verified=1&lang=en`
+  - `http://localhost:8765/site/profile.html?verified=1&lang=id`
+
+For production, replace the localhost entries with the production domain and
+the same `/site/profile.html` callback path. If the Site URL is still
+`http://localhost:3000`, confirmation links will fall back there.
+
 The frontend writes only to these RLS-protected tables:
 
 - `profiles`: learner name, email, role.
