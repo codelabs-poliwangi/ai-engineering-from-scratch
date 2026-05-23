@@ -8,6 +8,10 @@ on:
       - "scripts/audit_lessons.py"
       - "scripts/build_catalog.py"
       - "scripts/check_readme_counts.py"
+      - "scripts/i18n-status.mjs"
+      - "scripts/translate-lessons-id.mjs"
+      - "scripts/upstream-lesson-audit.mjs"
+      - "site/**"
       - "catalog.json"
       - "README.md"
       - ".github/workflows/curriculum.yml"
@@ -18,6 +22,10 @@ on:
       - "scripts/audit_lessons.py"
       - "scripts/build_catalog.py"
       - "scripts/check_readme_counts.py"
+      - "scripts/i18n-status.mjs"
+      - "scripts/translate-lessons-id.mjs"
+      - "scripts/upstream-lesson-audit.mjs"
+      - "site/**"
       - "catalog.json"
       - "README.md"
       - ".github/workflows/curriculum.yml"
@@ -72,3 +80,28 @@ jobs:
           python-version: "3.12"
       - name: check README counts against catalog.json
         run: python3 scripts/check_readme_counts.py
+
+  bilingual-site:
+    name: bilingual site checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with:
+          node-version: "22"
+      - name: check Indonesian lesson coverage
+        run: node scripts/i18n-status.mjs
+      - name: check JavaScript syntax
+        run: |
+          node --check scripts/translate-lessons-id.mjs
+          node --check scripts/upstream-lesson-audit.mjs
+          node --check site/app.js
+          node --check site/build.js
+          node --check site/cmdpalette.js
+          node --check site/header.js
+          node --check site/i18n.js
+          node --check site/progress.js
+      - name: check whitespace and conflict markers
+        run: git diff --check
