@@ -13,6 +13,33 @@
   var client = null;
   var authListenerAttached = false;
 
+  function readStoredSupabaseSession() {
+    try {
+      var cfg = getConfig();
+      var ref = '';
+      try { ref = new URL(cfg.url).hostname.split('.')[0]; } catch (_) {}
+      var candidates = [];
+      if (ref) candidates.push('sb-' + ref + '-auth-token');
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (key && /^sb-.*-auth-token$/.test(key)) candidates.push(key);
+      }
+      for (var j = 0; j < candidates.length; j++) {
+        var raw = localStorage.getItem(candidates[j]);
+        if (!raw) continue;
+        var parsed = JSON.parse(raw);
+        var expiresAt = parsed.expires_at || parsed.expiresAt || 0;
+        if (expiresAt && expiresAt * 1000 <= Date.now()) continue;
+        if (parsed.access_token || parsed.currentSession || parsed.user) return parsed;
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function hasLocalSession() {
+    return !!readStoredSupabaseSession();
+  }
+
   function getLang() {
     return document.documentElement.getAttribute('data-lang') || localStorage.getItem('aifs:lang') || 'en';
   }
@@ -240,6 +267,7 @@
     getClient: getClient,
     getSession: getSession,
     getUser: getUser,
+    hasLocalSession: hasLocalSession,
     signIn: signIn,
     signUp: signUp,
     signOut: signOut,
