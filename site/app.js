@@ -132,12 +132,18 @@
       var roman = toRoman(p.id);
       var num = String(p.id).padStart(2, '0');
       var phaseName = t('phase.' + p.id + '.name', p.name);
+      var phaseDesc = t('phase.' + p.id + '.desc', p.desc || '');
+      var pct = total > 0 ? Math.round((done / total) * 100) : 0;
       var isFirst = i === 0;
       html += '<div class="toc-row' + (isFirst ? ' toc-row--start' : '') + '" data-phase="' + i + '" role="button" tabindex="0" aria-label="Open phase ' + escapeHtml(phaseName) + '">';
       html += '<span class="toc-num">' + roman + '.</span>';
-      html += '<div><span class="toc-status ' + statusClass + '"></span><span class="toc-name">' + escapeHtml(phaseName) + '</span>' + (isFirst ? '<span class="toc-start-badge">→ Start here</span>' : '') + '</div>';
-      html += '<span class="toc-meta">' + done + ' / ' + total + '</span>';
-      html += '<span class="toc-meta">' + num + '</span>';
+      html += '<div class="toc-main">';
+      html += '<div class="toc-main-line"><span class="toc-status ' + statusClass + '"></span><span class="toc-name">' + escapeHtml(phaseName) + '</span>' + (isFirst ? '<span class="toc-start-badge">' + escapeHtml(t('home.startHere', 'Start here')) + '</span>' : '') + '</div>';
+      html += '<p class="toc-desc">' + escapeHtml(phaseDesc) + '</p>';
+      html += '</div>';
+      html += '<div class="toc-progress" aria-hidden="true"><span style="--phase-pct:' + pct + '%"></span></div>';
+      html += '<span class="toc-meta"><strong>' + done + '</strong> / ' + total + '<small>' + escapeHtml(t('home.lessonsLabel', 'lessons')) + '</small></span>';
+      html += '<span class="toc-meta toc-meta--phase">' + num + '</span>';
       html += '</div>';
     }
     grid.innerHTML = html;

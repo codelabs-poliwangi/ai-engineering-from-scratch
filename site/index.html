@@ -3,27 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Engineering from Scratch</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231c1a17'/><rect x='2' y='2' width='28' height='28' fill='none' stroke='%23e0a836' stroke-width='1.2'/><text x='6' y='22' font-size='14' font-family='monospace' fill='%23e0a836'>AI</text></svg>">
-  <meta name="description" content="416 lessons. 20 phases. Build the math, the model, the trainer, the tokenizer, and the agent loop. Once, by hand.">
-  <meta property="og:title" content="AI Engineering from Scratch">
-  <meta property="og:description" content="416 lessons. 20 phases. Write the backprop, the tokenizer, the attention mechanism, and the agent loop by hand before any framework gets imported. Python, TypeScript, Rust, Julia.">
+  <title>AI Engineering from Zero</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='16' fill='%230d1210'/><circle cx='16' cy='16' r='10' fill='none' stroke='%235ad0b7' stroke-width='3'/><text x='11' y='20' font-size='9' font-family='monospace' fill='%235ad0b7'>AI</text></svg>">
+  <meta name="description" content="AI Engineering from Zero: 416 lessons, 20 phases, bilingual materials, and practical labs that build the math, model, tokenizer, and agent loop by hand.">
+  <meta property="og:title" content="AI Engineering from Zero">
+  <meta property="og:description" content="A zero-to-build AI engineering lab path. 416 lessons across 20 phases, with English and Indonesian materials plus Python, TypeScript, Rust, and Julia work.">
   <meta property="og:image" content="https://aiengineeringfromscratch.com/og-image.png?v=2">
   <meta property="og:url" content="https://aiengineeringfromscratch.com">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI Engineering from Scratch">
-  <meta name="twitter:description" content="416 lessons. 20 phases. Write the backprop, the tokenizer, the attention mechanism, and the agent loop by hand.">
+  <meta name="twitter:title" content="AI Engineering from Zero">
+  <meta name="twitter:description" content="A zero-to-build AI engineering lab path with 416 lessons, 20 phases, and bilingual materials.">
   <meta name="twitter:image" content="https://aiengineeringfromscratch.com/og-image.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260601-impeccable">
+  <link rel="stylesheet" href="style.css?v=20260523-zero5">
   <script>(function(){var r=document.documentElement,s=localStorage.getItem('theme');if(s){r.setAttribute('data-theme',s);}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){r.setAttribute('data-theme','dark');}else{r.setAttribute('data-theme','light');}})();</script>
   <style>
     /* ── MASTHEAD ── */
     .masthead {
       padding: clamp(80px, 12vh, 120px) clamp(32px, 6vw, 80px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .masthead::before {
+      content: "";
+      position: absolute;
+      inset: 64px clamp(16px, 5vw, 56px) auto auto;
+      width: clamp(140px, 22vw, 280px);
+      aspect-ratio: 1;
+      border: 1px solid var(--rule-soft);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, transparent 48%, var(--blueprint-tint-strong) 49%, var(--blueprint-tint-strong) 51%, transparent 52%),
+        linear-gradient(135deg, var(--blueprint-tint), transparent 58%);
+      opacity: 0.72;
+      pointer-events: none;
     }
 
     .masthead-inner {
@@ -34,6 +51,8 @@
       padding-bottom: 20px;
       border-bottom: 2px solid var(--blueprint);
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .masthead-title {
@@ -49,6 +68,15 @@
     .masthead-title em {
       font-style: italic;
       color: var(--blueprint);
+    }
+
+    .source-credit {
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
     }
 
     .masthead-meta {
@@ -248,25 +276,28 @@
     }
 
     .toc-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border-top: 1px solid var(--rule-soft);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .toc-row {
       display: grid;
-      grid-template-columns: 52px 1fr auto auto;
+      grid-template-columns: 52px minmax(0, 1fr) 88px 96px 40px;
       align-items: center;
-      padding: 16px 0;
-      gap: 20px;
-      border-bottom: 1px solid var(--rule-soft);
+      padding: 14px 16px;
+      gap: 16px;
+      border: 1px solid var(--rule-soft);
+      background: var(--bg-surface);
       cursor: pointer;
-      transition: background 0.12s;
+      box-shadow: 0 1px 0 var(--paper-rule);
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
     }
 
     .toc-row:hover {
       background: var(--blueprint-tint);
+      border-color: var(--blueprint);
+      transform: translateX(4px);
     }
 
     .toc-num {
@@ -276,12 +307,46 @@
       color: var(--blueprint);
     }
 
+    .toc-main {
+      min-width: 0;
+    }
+
+    .toc-main-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
     .toc-name {
       font-family: var(--font-display);
       font-size: 1.25rem;
       letter-spacing: 0.01em;
       color: var(--ink);
       line-height: 1.2;
+    }
+
+    .toc-desc {
+      margin: 5px 0 0 18px;
+      max-width: 58ch;
+      font-size: 0.84rem;
+      line-height: 1.35;
+      color: var(--ink-mute);
+      text-align: left;
+    }
+
+    .toc-progress {
+      height: 6px;
+      border: 1px solid var(--rule-soft);
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .toc-progress span {
+      display: block;
+      width: var(--phase-pct, 0%);
+      height: 100%;
+      background: var(--blueprint);
     }
 
     .toc-leader { display: none; }
@@ -294,6 +359,19 @@
       font-variant-numeric: tabular-nums;
       min-width: 72px;
       text-align: right;
+    }
+
+    .toc-meta strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .toc-meta small {
+      display: block;
+      margin-top: 2px;
+      font-size: 0.56rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
     .toc-status {
@@ -335,6 +413,21 @@
       color: var(--ink-mute);
     }
 
+    .toc-start-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 8px;
+      border: 1px solid var(--blueprint);
+      background: var(--blueprint-tint);
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      white-space: nowrap;
+    }
+
     .legend-item {
       display: flex;
       align-items: center;
@@ -359,7 +452,8 @@
       }
       .toc-subtitle { display: none; }
       .toc-row { grid-template-columns: 40px 1fr auto; }
-      .toc-row .toc-meta:last-child { display: none; }
+      .toc-progress,
+      .toc-meta--phase { display: none; }
     }
 
     @media (max-width: 540px) {
@@ -367,8 +461,10 @@
       .spec-bar { padding-left: 20px; padding-right: 20px; }
       .masthead-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
       .masthead-meta { align-items: flex-start; }
-      .toc-row { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 12px 0; }
+      .toc-row { grid-template-columns: 32px 1fr; gap: 12px; padding: 14px 12px; }
+      .toc-row .toc-meta { display: none; }
       .toc-name { font-size: 1rem; }
+      .toc-desc { margin-left: 18px; font-size: 0.78rem; }
     }
 
     /* Figure card */
@@ -408,7 +504,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo">
-        <span class="logo-icon" aria-hidden="true"></span> AI / FROM SCRATCH
+        <span class="logo-icon" aria-hidden="true"></span> AI / FROM ZERO
       </a>
       <nav class="header-nav">
         <a href="#contents" data-i18n="nav.contents">Contents</a>
@@ -440,7 +536,10 @@
     <!-- MASTHEAD -->
     <section class="masthead">
       <div class="masthead-inner">
-        <h1 class="masthead-title">AI Engineering<br><em>from Scratch</em></h1>
+        <div>
+          <h1 class="masthead-title">AI Engineering <br><em>from Zero</em></h1>
+          <p class="source-credit" data-i18n="home.credit">Based on original work by Rohit Ghumare</p>
+        </div>
         <ul class="masthead-meta" aria-label="Course metadata">
           <li>Curriculum v1.0</li>
           <li>2026 Edition</li>
@@ -468,8 +567,8 @@
       <!-- LEFT: About -->
       <aside class="body-about">
         <div class="about-preface reveal">
-          <p data-i18n="home.how.p2">This curriculum is the spine. 20 phases, 416 lessons, four languages: Python, TypeScript, Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time PyTorch shows up, you already know what it&#8217;s doing under the hood.</p>
-          <p data-i18n="home.how.p3">Each lesson runs the same loop: read the problem, derive the math, write the code, run the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding. Free and built to run on your own laptop.</p>
+          <p data-i18n="home.how.p2">This is the zero-to-build path: 20 phases, 416 lessons, four implementation languages, and two reading languages. Linear algebra starts the route; autonomous swarms sit near the horizon. Every core algorithm is opened from the math upward before a framework hides the moving parts.</p>
+          <p data-i18n="home.how.p3">Each lesson keeps a lab rhythm: understand the problem, derive the idea, write the code, run the test, and keep the artifact. The Indonesian version keeps technical terms in English where that is clearer, so the vocabulary still matches papers, libraries, and documentation.</p>
         </div>
         <div class="about-cta">
           <a href="#contents" class="btn-primary" data-i18n="home.cta.start">Start Learning</a>
@@ -485,7 +584,7 @@
       <!-- RIGHT: TOC -->
       <section class="body-toc" id="contents">
         <div class="toc-header">
-          <span class="toc-title reveal reveal--left" data-i18n="home.toc.title">Curriculum &middot; 20 phases &middot; 416 lessons</span>
+          <span class="toc-title reveal reveal--left" data-i18n="home.toc.title">Zero Roadmap &middot; 20 phases &middot; 416 lessons</span>
           <span class="toc-subtitle reveal" data-i18n="home.toc.subtitle">Tap a phase to expand its lessons. Each one ships when its math, code, and test are all written.</span>
         </div>
         <div class="toc-list" id="phasesGrid"></div>
@@ -521,7 +620,7 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p data-i18n="home.footer">© 2026 · free forever</p>
+      <p data-i18n="home.footer">AI Engineering from Zero · Based on original work by Rohit Ghumare · adapted and expanded.</p>
       <div class="footer-links">
         <a href="catalog.html" data-i18n="nav.catalog">Catalog</a>
         <a href="prereqs.html" data-i18n="nav.roadmap">Roadmap</a>
@@ -530,12 +629,12 @@
     </div>
   </footer>
 
-  <script src="data.js?v=20260601-impeccable"></script>
-  <script src="progress.js?v=20260601-impeccable"></script>
-  <script src="i18n.js?v=20260601-impeccable"></script>
-  <script src="header.js?v=20260601-impeccable" defer></script>
-  <script src="cmdpalette.js?v=20260601-impeccable" defer></script>
-  <script src="app.js?v=20260601-impeccable"></script>
+  <script src="data.js?v=20260523-zero5"></script>
+  <script src="progress.js?v=20260523-zero5"></script>
+  <script src="i18n.js?v=20260523-zero5"></script>
+  <script src="header.js?v=20260523-zero5" defer></script>
+  <script src="cmdpalette.js?v=20260523-zero5" defer></script>
+  <script src="app.js?v=20260523-zero5"></script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
 </body>
 </html>

@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <script>(function(){var r=document.documentElement,s=localStorage.getItem('theme');if(s){r.setAttribute('data-theme',s);}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){r.setAttribute('data-theme','dark');}else{r.setAttribute('data-theme','light');}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson - AI Engineering from Scratch</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231c1a17'/><rect x='2' y='2' width='28' height='28' fill='none' stroke='%23e0a836' stroke-width='1.2'/><text x='6' y='22' font-size='14' font-family='monospace' fill='%23e0a836'>AI</text></svg>">
-  <meta name="description" content="A lesson from the AI Engineering from Scratch curriculum. 416 lessons across 20 phases, four languages, every algorithm built from raw math.">
-  <meta property="og:title" content="AI Engineering from Scratch · Lesson">
-  <meta property="og:description" content="416 lessons. 20 phases. Write the backprop, the tokenizer, the attention mechanism, and the agent loop by hand.">
+  <title>Lesson - AI Engineering from Zero</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='16' fill='%230d1210'/><circle cx='16' cy='16' r='10' fill='none' stroke='%235ad0b7' stroke-width='3'/><text x='11' y='20' font-size='9' font-family='monospace' fill='%235ad0b7'>AI</text></svg>">
+  <meta name="description" content="A bilingual lesson from AI Engineering from Zero. Build core AI ideas from math, code, tests, and reusable artifacts.">
+  <meta property="og:title" content="AI Engineering from Zero · Lesson">
+  <meta property="og:description" content="Zero-to-build AI engineering lessons with English and Indonesian reading modes.">
   <meta property="og:image" content="https://aiengineeringfromscratch.com/og-image.png?v=2">
   <!-- og:url omitted intentionally: lesson.html is a static template that loads the lesson body client-side via ?path=. Static hosting cannot template the URL, so we let crawlers fall back to the request URL (which is the lesson-specific share link). -->
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI Engineering from Scratch">
-  <meta name="twitter:description" content="416 lessons. 20 phases. Build it from raw math, by hand.">
+  <meta name="twitter:title" content="AI Engineering from Zero">
+  <meta name="twitter:description" content="Zero-to-build AI engineering lessons with bilingual reading modes.">
   <meta name="twitter:image" content="https://aiengineeringfromscratch.com/og-image.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260601-impeccable">
+  <link rel="stylesheet" href="style.css?v=20260523-zero5">
   <style>
     .scroll-progress {
       position: fixed;
@@ -165,8 +165,31 @@
       min-width: 0;
       margin-left: 240px;
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
       padding: 56px 32px 96px;
+    }
+
+    .lesson-brand-strip {
+      width: min(720px, 100%);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 18px;
+      padding: 10px 0;
+      border-top: 1px solid var(--rule-soft);
+      border-bottom: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    .lesson-brand-strip span:first-child {
+      color: var(--blueprint);
+      font-weight: 700;
     }
 
     .lesson-content {
@@ -1530,6 +1553,7 @@
 
     @media (max-width: 768px) {
       .lesson-main { padding: 56px 16px 60px; }
+      .lesson-brand-strip { flex-wrap: wrap; justify-content: flex-start; }
       .lesson-article { max-width: 100%; }
       .lesson-article p,
       .lesson-article ul li,
@@ -1566,7 +1590,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo">
-        <span class="logo-icon" aria-hidden="true"></span> AI / FROM SCRATCH
+        <span class="logo-icon" aria-hidden="true"></span> AI / FROM ZERO
       </a>
       <nav class="header-nav">
         <a href="index.html#contents" data-i18n="nav.contents">Contents</a>
@@ -1610,6 +1634,11 @@
   <div class="lesson-layout">
     <aside class="lesson-sidebar" id="lessonSidebar"></aside>
     <main class="lesson-main">
+      <div class="lesson-brand-strip" id="lessonBrandStrip">
+        <span>Zero Lesson</span>
+        <span>EN / ID reader</span>
+        <span>Technical terms preserved</span>
+      </div>
       <div class="lesson-content" id="lessonContent">
         <div class="lesson-loading" id="lessonLoading">
           <div class="spinner"></div>
@@ -1620,11 +1649,11 @@
     <aside class="toc-sidebar" id="tocSidebar" aria-hidden="true"></aside>
   </div>
 
-  <script src="data.js?v=20260601-impeccable"></script>
-  <script src="progress.js?v=20260601-impeccable"></script>
-  <script src="i18n.js?v=20260601-impeccable"></script>
-  <script src="header.js?v=20260601-impeccable" defer></script>
-  <script src="cmdpalette.js?v=20260601-impeccable" defer></script>
+  <script src="data.js?v=20260523-zero5"></script>
+  <script src="progress.js?v=20260523-zero5"></script>
+  <script src="i18n.js?v=20260523-zero5"></script>
+  <script src="header.js?v=20260523-zero5" defer></script>
+  <script src="cmdpalette.js?v=20260523-zero5" defer></script>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     mermaid.initialize({
@@ -1733,6 +1762,7 @@
       }
 
       buildSidebar();
+      renderLessonCompass();
       initSidebarToggle();
       initScrollProgress();
       initLanguageToggle();
@@ -1747,6 +1777,7 @@
         window.AIFSI18n.updateUrlLang(params, lang);
         window.AIFSI18n.applyStaticText();
         updateLanguageToggle();
+        renderLessonCompass();
         showLoading(lang);
         fetchLesson(lessonPath);
       }
@@ -1849,6 +1880,34 @@
         sidebar.innerHTML = html;
       }
 
+      function renderLessonCompass() {
+        var strip = document.getElementById('lessonBrandStrip');
+        if (!strip) return;
+        if (currentPhaseIndex < 0 || currentLessonIndex < 0 || typeof PHASES === 'undefined') return;
+
+        var current = flatLessons[currentLessonIndex];
+        var phase = PHASES[currentPhaseIndex];
+        var readableInPhase = 0;
+        var readablePosition = 0;
+
+        for (var i = 0; i < phase.lessons.length; i++) {
+          var lesson = phase.lessons[i];
+          var readable = lesson.status === 'complete' || !!lesson.url;
+          if (!readable) continue;
+          readableInPhase += 1;
+          if (extractLessonSlug(lesson, i) === currentLessonSlug) {
+            readablePosition = readableInPhase;
+          }
+        }
+
+        var lang = lessonLang === 'id' ? 'ID reader' : 'EN reader';
+        strip.innerHTML = ''
+          + '<span>Phase ' + String(current.phaseId).padStart(2, '0') + '</span>'
+          + '<span>' + escapeHtml(current.phaseName) + '</span>'
+          + '<span>Lesson ' + readablePosition + ' / ' + readableInPhase + '</span>'
+          + '<span>' + lang + '</span>';
+      }
+
       function initSidebarToggle() {
         var toggle = document.getElementById('sidebarToggle');
         var sidebar = document.getElementById('lessonSidebar');
@@ -1938,12 +1997,14 @@
       function renderLesson(md) {
         var el = document.getElementById('lessonContent');
         var html = parseMd(md);
-        /* draft-notice removed: show EN content as-is when ID not available */
+        if (usedFallbackLang && window.AIFSI18n.fallbackMessage(usedFallbackLang)) {
+          html = '<div class="language-note">' + window.AIFSI18n.fallbackMessage(usedFallbackLang) + '</div>' + html;
+        }
         html += '<div class="ai-panels" id="aiPanels"></div>';
         html = addBottomNav(html);
         el.innerHTML = '<article class="lesson-article">' + html + '</article>';
 
-        document.title = extractTitle(md) + ' - AI Engineering from Scratch';
+        document.title = extractTitle(md) + ' - AI Engineering from Zero';
 
         initCodeCopy();
         renderMermaidBlocks();

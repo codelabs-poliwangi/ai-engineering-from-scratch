@@ -111,7 +111,7 @@ Broadcasting stretches the vector across rows:
 | 4  5  6 | + | 10  20  30 | = | 14  25  36 |
 ```
 
-Setiap modern framework melakukan ini otomatis. Memahami broadcasting mencegah kebingungan ketika shapes tampak berbeda, tetapi code tetap berjalan.
+Setiap modern framework melakukan ini otomatis. Memahami broadcasting mencegah perplexity ketika shapes tampak berbeda, tetapi code tetap berjalan.
 
 ## Build It
 
