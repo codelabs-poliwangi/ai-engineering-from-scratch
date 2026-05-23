@@ -72,7 +72,8 @@
     var sb = getClient();
     if (!sb) return Promise.reject(new Error('Supabase is not configured.'));
     var lang = getLang();
-    var redirectTo = window.location.origin + window.location.pathname.replace(/login\.html$/, 'profile.html') + '?verified=1&lang=' + encodeURIComponent(lang);
+    var callbackPath = window.location.pathname.replace(/login\.html$/, 'auth-callback.html');
+    var redirectTo = window.location.origin + callbackPath + '?next=profile.html&lang=' + encodeURIComponent(lang);
     return sb.auth.signUp({
       email: email,
       password: password,

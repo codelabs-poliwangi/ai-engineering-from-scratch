@@ -20,6 +20,9 @@ For local development, Supabase URL Configuration must include:
 
 - Site URL: `http://localhost:8765`
 - Redirect URLs:
+  - `http://localhost:8765/site/auth-callback.html`
+  - `http://localhost:8765/site/auth-callback.html?next=profile.html&lang=en`
+  - `http://localhost:8765/site/auth-callback.html?next=profile.html&lang=id`
   - `http://localhost:8765/site/profile.html`
   - `http://localhost:8765/site/profile.html?verified=1&lang=en`
   - `http://localhost:8765/site/profile.html?verified=1&lang=id`
@@ -28,6 +31,9 @@ For production, Supabase URL Configuration must include:
 
 - Site URL: `https://aiengineer.sepyankristanto.my.id`
 - Redirect URLs:
+  - `https://aiengineer.sepyankristanto.my.id/site/auth-callback.html`
+  - `https://aiengineer.sepyankristanto.my.id/site/auth-callback.html?next=profile.html&lang=en`
+  - `https://aiengineer.sepyankristanto.my.id/site/auth-callback.html?next=profile.html&lang=id`
   - `https://aiengineer.sepyankristanto.my.id/site/profile.html`
   - `https://aiengineer.sepyankristanto.my.id/site/profile.html?verified=1&lang=en`
   - `https://aiengineer.sepyankristanto.my.id/site/profile.html?verified=1&lang=id`
