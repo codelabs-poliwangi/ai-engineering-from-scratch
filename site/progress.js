@@ -42,7 +42,22 @@
     }
   }
 
+  function normalizeState(state) {
+    if (!state || typeof state !== 'object') return emptyState();
+    if (!state.lessons || typeof state.lessons !== 'object') state.lessons = {};
+    if (!state.updatedAt || typeof state.updatedAt !== 'number') state.updatedAt = 0;
+    for (var path in state.lessons) {
+      var lesson = state.lessons[path] || {};
+      if (!lesson.answers || typeof lesson.answers !== 'object') lesson.answers = {};
+      lesson.completedAt = lesson.completedAt || null;
+      lesson.visitedAt = lesson.visitedAt || 0;
+      state.lessons[path] = lesson;
+    }
+    return state;
+  }
+
   function write(state) {
+    state = normalizeState(state);
     state.updatedAt = Date.now();
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -52,6 +67,39 @@
     for (var i = 0; i < listeners.length; i++) {
       try { listeners[i](state); } catch (_) {}
     }
+  }
+
+  function getState() {
+    return normalizeState(read());
+  }
+
+  function replaceState(nextState) {
+    write(normalizeState(nextState));
+  }
+
+  function mergeState(remoteState) {
+    var local = normalizeState(read());
+    var remote = normalizeState(remoteState);
+    for (var path in remote.lessons) {
+      var incoming = remote.lessons[path] || {};
+      var target = ensureLesson(local, path);
+      if ((incoming.visitedAt || 0) > (target.visitedAt || 0)) {
+        target.visitedAt = incoming.visitedAt;
+      }
+      if (incoming.completedAt && (!target.completedAt || incoming.completedAt > target.completedAt)) {
+        target.completedAt = incoming.completedAt;
+      }
+      var incomingAnswers = incoming.answers || {};
+      for (var qid in incomingAnswers) {
+        var nextAnswer = incomingAnswers[qid];
+        var currentAnswer = target.answers[qid];
+        if (!currentAnswer || ((nextAnswer && nextAnswer.t) || 0) > ((currentAnswer && currentAnswer.t) || 0)) {
+          target.answers[qid] = nextAnswer;
+        }
+      }
+    }
+    write(local);
+    return local;
   }
 
   function ensureLesson(state, path) {
@@ -158,6 +206,9 @@
   });
 
   window.AIFSProgress = {
+    getState: getState,
+    replaceState: replaceState,
+    mergeState: mergeState,
     recordVisit: recordVisit,
     recordAnswer: recordAnswer,
     markLessonComplete: markLessonComplete,

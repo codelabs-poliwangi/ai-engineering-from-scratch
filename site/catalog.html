@@ -285,6 +285,31 @@
       background: var(--planned);
     }
 
+    .catalog-access {
+      display: inline-flex;
+      min-width: 74px;
+      justify-content: center;
+      padding: 3px 8px;
+      border: 1px solid var(--rule-soft);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .catalog-access.free,
+    .catalog-access.unlocked {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .catalog-access.locked {
+      color: var(--warn);
+      border-color: var(--warn);
+    }
+
     .catalog-lang {
       font-family: var(--font-mono);
       font-size: 0.8rem;
@@ -375,6 +400,7 @@
         <a href="catalog.html" data-i18n="nav.catalog">Catalog</a>
         <a href="prereqs.html" data-i18n="nav.roadmap">Roadmap</a>
         <a href="glossary.html" data-i18n="nav.glossary">Glossary</a>
+        <a href="login.html" data-auth-link data-i18n="nav.login">Login</a>
       </nav>
       <button class="search-toggle" type="button" data-cmd-palette data-i18n-aria="search.aria"
         aria-label="Search (⌘K)" title="Search (⌘K)">
@@ -432,6 +458,14 @@
                 <option value="planned" data-i18n="catalog.planned">Planned</option>
               </select>
             </div>
+            <div class="catalog-field">
+              <label for="catalogAccess" data-i18n="catalog.panel.access">Access</label>
+              <select class="catalog-filter" id="catalogAccess">
+                <option value="" data-i18n="catalog.allAccess">All Access</option>
+                <option value="free" data-i18n="catalog.freeAccess">Free</option>
+                <option value="login" data-i18n="catalog.loginAccess">Login Required</option>
+              </select>
+            </div>
           </div>
         </aside>
 
@@ -448,6 +482,7 @@
                   <th data-sort="name"><span data-i18n="catalog.lesson">Lesson</span> <span class="sort-arrow"></span></th>
                   <th data-sort="type"><span data-i18n="catalog.type">Type</span> <span class="sort-arrow"></span></th>
                   <th data-sort="lang"><span data-i18n="catalog.language">Language</span> <span class="sort-arrow"></span></th>
+                  <th data-sort="access"><span data-i18n="catalog.access">Access</span> <span class="sort-arrow"></span></th>
                   <th data-sort="status"><span data-i18n="catalog.status">Status</span> <span class="sort-arrow"></span></th>
                 </tr>
               </thead>
@@ -471,9 +506,13 @@
   </footer>
 
   <script src="data.js?v=20260523-zero5"></script>
-  <script src="progress.js?v=20260523-zero5"></script>
-  <script src="i18n.js?v=20260523-zero5"></script>
-  <script src="header.js?v=20260523-zero5" defer></script>
+  <script src="progress.js?v=20260523-auth1"></script>
+  <script src="i18n.js?v=20260523-admin2"></script>
+  <script src="supabase-config.js?v=20260523-access1"></script>
+  <script src="vendor/supabase-loader.js?v=20260523-admin2"></script>
+  <script src="auth.js?v=20260523-admin2"></script>
+  <script src="access.js?v=20260523-access3"></script>
+  <script src="header.js?v=20260523-admin2" defer></script>
   <script src="cmdpalette.js?v=20260523-zero5" defer></script>
   <script>
     (function () {
@@ -525,8 +564,11 @@
           for (var j = 0; j < p.lessons.length; j++) {
             var l = p.lessons[j];
             allRows.push({
+              phaseIndex: i,
+              lessonIndex: j,
               phase: p.id,
               phaseName: p.name,
+              rawLesson: l,
               name: l.name,
               type: l.type,
               lang: l.lang,
@@ -539,6 +581,7 @@
 
         var searchInput = document.getElementById('catalogSearch');
         var statusSelect = document.getElementById('catalogStatus');
+        var accessSelect = document.getElementById('catalogAccess');
         var bodyEl = document.getElementById('catalogBody');
         var countEl = document.getElementById('catalogCount');
         var sortCol = 'phase';
@@ -554,10 +597,13 @@
           var query = (searchInput.value || '').toLowerCase().trim();
           var phaseFilter = phaseSelect.value;
           var statusFilter = statusSelect.value;
+          var accessFilter = accessSelect.value;
 
           var rows = allRows.filter(function (r) {
             if (phaseFilter && String(r.phase) !== phaseFilter) return false;
             if (statusFilter && r.status !== statusFilter) return false;
+            var accessKind = getAccessKind(r);
+            if (accessFilter && accessKind !== accessFilter) return false;
             if (query) {
               return r.name.toLowerCase().indexOf(query) !== -1 ||
                 r.phaseName.toLowerCase().indexOf(query) !== -1 ||
@@ -581,6 +627,9 @@
             } else if (sortCol === 'lang') {
               va = a.lang.toLowerCase();
               vb = b.lang.toLowerCase();
+            } else if (sortCol === 'access') {
+              va = getAccessKind(a);
+              vb = getAccessKind(b);
             } else if (sortCol === 'status') {
               va = a.status;
               vb = b.status;
@@ -593,23 +642,31 @@
           countEl.textContent = t('catalog.count', rows.length + ' of ' + allRows.length + ' lessons', { shown: rows.length, total: allRows.length });
 
           if (rows.length === 0) {
-            bodyEl.innerHTML = '<tr><td colspan="5" class="catalog-empty">' + escapeHtml(t('catalog.empty', 'No lessons match your filters.')) + '</td></tr>';
+            bodyEl.innerHTML = '<tr><td colspan="6" class="catalog-empty">' + escapeHtml(t('catalog.empty', 'No lessons match your filters.')) + '</td></tr>';
             return;
           }
 
           var html = '';
           for (var i = 0; i < rows.length; i++) {
             var r = rows[i];
+            var canOpen = !window.AIFSAccess || window.AIFSAccess.canOpenLesson(r.phaseIndex, r.lessonIndex, r.rawLesson);
+            var accessKind = getAccessKind(r);
+            var accessClass = accessKind === 'free' ? 'free' : (canOpen ? 'unlocked' : 'locked');
+            var accessLabel = accessKind === 'free' ? t('access.free', 'Free') : (canOpen ? t('access.unlocked', 'Unlocked') : t('access.locked', 'Login required'));
             html += '<tr>';
             html += '<td><span class="catalog-phase-label">' + String(r.phase).padStart(2, '0') + '</span></td>';
-            if (r.url) {
+            if (r.url && canOpen) {
               var href = r.lessonPath ? 'lesson.html?path=' + encodeURIComponent(r.lessonPath) + '&lang=' + encodeURIComponent(currentLang()) : r.url;
               html += '<td><a href="' + href + '"' + (r.lessonPath ? '' : ' target="_blank" rel="noopener"') + '>' + escapeHtml(r.name) + '</a></td>';
+            } else if (r.url && !canOpen && window.AIFSAccess) {
+              var lockedHref = r.lessonPath ? 'lesson.html?path=' + encodeURIComponent(r.lessonPath) + '&lang=' + encodeURIComponent(currentLang()) : 'catalog.html';
+              html += '<td><a href="' + window.AIFSAccess.loginHrefFor(lockedHref) + '">' + escapeHtml(r.name) + '</a></td>';
             } else {
               html += '<td>' + escapeHtml(r.name) + '</td>';
             }
             html += '<td>' + escapeHtml(r.type) + '</td>';
             html += '<td><span class="catalog-lang">' + escapeHtml(r.lang) + '</span></td>';
+            html += '<td><span class="catalog-access ' + accessClass + '">' + escapeHtml(accessLabel) + '</span></td>';
             html += '<td><span class="catalog-status-dot ' + r.status + '"></span>' + escapeHtml(statusLabel(r.status)) + '</td>';
             html += '</tr>';
           }
@@ -626,6 +683,8 @@
         searchInput.addEventListener('input', render);
         phaseSelect.addEventListener('change', render);
         statusSelect.addEventListener('change', render);
+        accessSelect.addEventListener('change', render);
+        document.addEventListener('aifz:accesschange', render);
 
         document.querySelectorAll('.catalog-table th[data-sort]').forEach(function (th) {
           th.addEventListener('click', function () {
@@ -650,6 +709,11 @@
           if (status === 'complete') return t('catalog.complete', 'Complete');
           if (status === 'planned') return t('catalog.planned', 'Planned');
           return status;
+        }
+
+        function getAccessKind(row) {
+          if (!window.AIFSAccess) return 'free';
+          return window.AIFSAccess.isFreeLesson(row.phaseIndex, row.lessonIndex) ? 'free' : 'login';
         }
 
         function extractLessonPath(url) {

@@ -135,6 +135,9 @@
       var phaseDesc = t('phase.' + p.id + '.desc', p.desc || '');
       var pct = total > 0 ? Math.round((done / total) * 100) : 0;
       var isFirst = i === 0;
+      var freeCount = countFreeLessons(i, p);
+      var accessText = freeCount >= total ? t('access.free', 'Free') : freeCount + ' ' + t('access.freeShort', 'free');
+      var accessClass = freeCount >= total ? 'free' : 'login';
       html += '<div class="toc-row' + (isFirst ? ' toc-row--start' : '') + '" data-phase="' + i + '" role="button" tabindex="0" aria-label="Open phase ' + escapeHtml(phaseName) + '">';
       html += '<span class="toc-num">' + roman + '.</span>';
       html += '<div class="toc-main">';
@@ -143,6 +146,7 @@
       html += '</div>';
       html += '<div class="toc-progress" aria-hidden="true"><span style="--phase-pct:' + pct + '%"></span></div>';
       html += '<span class="toc-meta"><strong>' + done + '</strong> / ' + total + '<small>' + escapeHtml(t('home.lessonsLabel', 'lessons')) + '</small></span>';
+      html += '<span class="toc-access ' + accessClass + '">' + escapeHtml(accessText) + '</span>';
       html += '<span class="toc-meta toc-meta--phase">' + num + '</span>';
       html += '</div>';
     }
@@ -166,6 +170,15 @@
         if (!isNaN(idx)) openModal(idx);
       });
     }
+  }
+
+  function countFreeLessons(phaseIdx, phase) {
+    if (!window.AIFSAccess || !phase || !phase.lessons) return 0;
+    var count = 0;
+    for (var i = 0; i < phase.lessons.length; i++) {
+      if (window.AIFSAccess.isFreeLesson(phaseIdx, i)) count++;
+    }
+    return count;
   }
 
   function toRoman(num) {
@@ -248,24 +261,32 @@
       var pathMatch = l.url ? l.url.match(/(phases\/[^/]+\/[^/]+)\/?$/) : null;
       var lessonPath = pathMatch ? pathMatch[1] : '';
       var userComplete = hasProgress && lessonPath && window.AIFSProgress.isLessonComplete(lessonPath);
+      var canOpen = !window.AIFSAccess || window.AIFSAccess.canOpenLesson(currentPhaseIdx, i, l);
+      var isFree = window.AIFSAccess && window.AIFSAccess.isFreeLesson(currentPhaseIdx, i);
+      var accessLabel = window.AIFSAccess ? window.AIFSAccess.accessLabel(currentPhaseIdx, i, l) : '';
+      var accessClass = isFree ? 'free' : (canOpen ? 'unlocked' : 'locked');
       if (userComplete) userDone++;
 
       var statusClass = l.status.replace(/ /g, '-');
       if (userComplete) statusClass = 'complete';
 
-      html += '<div class="modal-lesson' + (userComplete ? ' user-done' : '') + '">';
+      html += '<div class="modal-lesson' + (userComplete ? ' user-done' : '') + (!canOpen ? ' locked' : '') + '">';
       html += '<span class="modal-lesson-status ' + statusClass + '"' + (userComplete ? ' title="You completed this lesson"' : '') + '></span>';
-      if (l.url) {
+      if (l.url && canOpen) {
         html += '<a href="' + l.url + '" target="_blank" rel="noopener">' + escapeHtml(l.name) + '</a>';
       } else {
         html += '<a>' + escapeHtml(l.name) + '</a>';
       }
       html += '<span class="modal-lesson-type" data-type="' + escapeHtml(l.type) + '"' + (l.combines ? ' title="Combines: ' + escapeHtml(l.combines) + '"' : '') + '>' + escapeHtml(l.type) + '</span>';
       html += '<span class="modal-lesson-lang">' + escapeHtml(l.lang) + '</span>';
+      html += '<span class="access-badge ' + accessClass + '">' + escapeHtml(accessLabel) + '</span>';
 
       var actionHtml = '';
-      if ((l.status === 'complete' || userComplete) && lessonPath) {
+      if ((l.status === 'complete' || userComplete) && lessonPath && canOpen) {
         actionHtml = '<a href="lesson.html?path=' + lessonPath + '&lang=' + encodeURIComponent(currentLang()) + '" class="modal-lesson-read">' + (userComplete ? t('home.modal.review', 'Review') : t('home.modal.read', 'Read')) + '</a>';
+      } else if (lessonPath && !canOpen && window.AIFSAccess) {
+        var lockedNext = 'lesson.html?path=' + lessonPath + '&lang=' + encodeURIComponent(currentLang());
+        actionHtml = '<a href="' + window.AIFSAccess.loginHrefFor(lockedNext) + '" class="modal-lesson-read locked">' + t('access.login', 'Login') + '</a>';
       }
       var toggleHtml = '';
       if (hasProgress && lessonPath) {
@@ -320,6 +341,13 @@
       renderPhases();
     });
   }
+
+  document.addEventListener('aifz:accesschange', function () {
+    if (currentPhaseIdx >= 0 && PHASES[currentPhaseIdx]) {
+      renderModalLessons(PHASES[currentPhaseIdx]);
+    }
+    renderPhases();
+  });
 
   function closeModal() {
     document.getElementById('modalOverlay').classList.remove('open');

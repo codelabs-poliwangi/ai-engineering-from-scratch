@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){var r=document.documentElement,s=localStorage.getItem('theme');if(s){r.setAttribute('data-theme',s);}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){r.setAttribute('data-theme','dark');}else{r.setAttribute('data-theme','light');}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - AI Engineering from Zero</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='16' fill='%230d1210'/><circle cx='16' cy='16' r='10' fill='none' stroke='%235ad0b7' stroke-width='3'/><text x='11' y='20' font-size='9' font-family='monospace' fill='%235ad0b7'>AI</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260523-zero5">
+  <style>
+    .profile-page {
+      min-height: 100vh;
+      padding: 112px clamp(24px, 6vw, 80px) 80px;
+      background:
+        linear-gradient(90deg, var(--paper-rule) 1px, transparent 1px),
+        linear-gradient(180deg, var(--paper-rule) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    .profile-shell {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .profile-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .profile-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin: 0 0 8px;
+    }
+
+    .profile-top h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1;
+      margin: 0;
+    }
+
+    .profile-top p {
+      margin: 12px 0 0;
+      color: var(--ink-soft);
+      max-width: 640px;
+      line-height: 1.65;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .progress-panel,
+    .account-panel {
+      border: 1px solid var(--rule-soft);
+      background: var(--bg);
+      padding: 24px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--rule-soft);
+      border: 1px solid var(--rule-soft);
+      margin-bottom: 24px;
+    }
+
+    .stat-cell {
+      background: var(--bg-surface);
+      padding: 18px;
+      min-height: 94px;
+    }
+
+    .stat-cell strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .stat-cell span {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    .progress-track {
+      height: 12px;
+      background: var(--blueprint-tint);
+      border: 1px solid var(--rule-soft);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--blueprint);
+      transition: width 0.25s ease;
+    }
+
+    .activity-list {
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .activity-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .activity-list code {
+      color: var(--ink);
+      background: transparent;
+      padding: 0;
+      font-size: 0.78rem;
+    }
+
+    .account-panel h2,
+    .progress-panel h2 {
+      font-size: 1.25rem;
+      margin: 0 0 16px;
+    }
+
+    .account-row {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .account-row label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    .account-row input {
+      width: 100%;
+      border: 1px solid var(--rule-soft);
+      background: var(--bg-surface);
+      color: var(--ink);
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    .status-line {
+      color: var(--ink-soft);
+      min-height: 22px;
+      margin: 14px 0 0;
+      line-height: 1.45;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .profile-top,
+      .profile-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo"><span class="logo-icon" aria-hidden="true"></span> AI / FROM ZERO</a>
+      <nav class="header-nav">
+        <a href="index.html#contents" data-i18n="nav.contents">Contents</a>
+        <a href="catalog.html" data-i18n="nav.catalog">Catalog</a>
+        <a href="prereqs.html" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="glossary.html" data-i18n="nav.glossary">Glossary</a>
+        <a href="login.html" data-auth-link data-i18n="nav.login">Login</a>
+      </nav>
+      <div class="language-toggle" id="languageToggle" aria-label="Site language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="id" aria-pressed="false">ID</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" data-i18n-aria="theme.aria" aria-label="Toggle theme"><span class="theme-icon">◐</span></button>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <div class="profile-shell">
+      <section class="profile-top">
+        <div>
+          <p class="profile-kicker" data-i18n="profile.kicker">Learning profile</p>
+          <h1 id="profileTitle" data-i18n="profile.title">Your progress map</h1>
+          <p id="profileSubtitle" data-i18n="profile.subtitle">Monitor completed lessons, opened lessons, and quiz accuracy. When signed in, progress syncs to your account.</p>
+        </div>
+        <a class="btn btn-secondary" href="catalog.html" data-i18n="profile.continue">Continue catalog</a>
+      </section>
+
+      <div class="profile-grid">
+        <section class="progress-panel">
+          <h2 data-i18n="profile.progress">Learning progress</h2>
+          <div class="stats-grid">
+            <div class="stat-cell"><strong id="completedStat">0</strong><span data-i18n="metric.completed">completed</span></div>
+            <div class="stat-cell"><strong id="percentStat">0%</strong><span data-i18n="metric.courseProgress">course progress</span></div>
+            <div class="stat-cell"><strong id="visitedStat">0</strong><span data-i18n="metric.visited">visited</span></div>
+            <div class="stat-cell"><strong id="quizStat">0%</strong><span data-i18n="metric.quizAccuracy">quiz accuracy</span></div>
+          </div>
+          <div class="progress-track" aria-label="Course progress">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <p class="status-line" id="progressStatus" data-i18n="profile.readingLocal">Reading local progress...</p>
+          <ul class="activity-list" id="activityList"></ul>
+        </section>
+
+        <aside class="account-panel">
+          <h2 data-i18n="profile.account">Account</h2>
+          <div class="account-row">
+            <label>Email</label>
+            <input id="accountEmail" readonly placeholder="Not signed in" data-i18n-placeholder="profile.notSignedIn">
+          </div>
+          <div class="account-row">
+            <label for="profileName" data-i18n="profile.name">Name</label>
+            <input id="profileName" placeholder="Full name" data-i18n-placeholder="profile.namePlaceholder">
+          </div>
+          <div class="button-row">
+            <button class="btn btn-primary" type="button" id="saveProfile" data-i18n="profile.save">Save profile</button>
+            <button class="btn btn-secondary" type="button" id="syncNow" data-i18n="profile.sync">Sync now</button>
+            <a class="btn btn-secondary" href="admin.html" id="adminLink" data-i18n="profile.admin" hidden>Admin dashboard</a>
+            <button class="btn btn-secondary" type="button" id="signOut" data-i18n="profile.signout">Sign out</button>
+          </div>
+          <p class="status-line" id="accountStatus"></p>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script src="data.js?v=20260523-zero5"></script>
+  <script src="progress.js?v=20260523-auth1"></script>
+  <script src="i18n.js?v=20260523-admin2"></script>
+  <script src="supabase-config.js?v=20260523-access1"></script>
+  <script src="vendor/supabase-loader.js?v=20260523-admin2"></script>
+  <script src="auth.js?v=20260523-admin2"></script>
+  <script src="access.js?v=20260523-access3"></script>
+  <script src="header.js?v=20260523-admin2" defer></script>
+  <script src="profile.js?v=20260523-admin2"></script>
+</body>
+</html>

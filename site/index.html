@@ -374,6 +374,31 @@
       text-transform: uppercase;
     }
 
+    .toc-access {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 54px;
+      padding: 4px 8px;
+      border: 1px solid var(--rule-soft);
+      color: var(--ink-mute);
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .toc-access.free {
+      color: var(--blueprint);
+      border-color: var(--blueprint);
+    }
+
+    .toc-access.login {
+      color: var(--warn);
+      border-color: var(--warn);
+    }
+
     .toc-status {
       width: 10px;
       height: 10px;
@@ -511,6 +536,7 @@
         <a href="catalog.html" data-i18n="nav.catalog">Catalog</a>
         <a href="prereqs.html" data-i18n="nav.roadmap">Roadmap</a>
         <a href="glossary.html" data-i18n="nav.glossary">Glossary</a>
+        <a href="login.html" data-auth-link data-i18n="nav.login">Login</a>
       </nav>
       <button class="search-toggle" type="button" data-cmd-palette data-i18n-aria="search.aria"
         aria-label="Search (⌘K)" title="Search (⌘K)">
@@ -630,11 +656,15 @@
   </footer>
 
   <script src="data.js?v=20260523-zero5"></script>
-  <script src="progress.js?v=20260523-zero5"></script>
-  <script src="i18n.js?v=20260523-zero5"></script>
-  <script src="header.js?v=20260523-zero5" defer></script>
+  <script src="progress.js?v=20260523-auth1"></script>
+  <script src="i18n.js?v=20260523-admin2"></script>
+  <script src="supabase-config.js?v=20260523-access1"></script>
+  <script src="vendor/supabase-loader.js?v=20260523-admin2"></script>
+  <script src="auth.js?v=20260523-admin2"></script>
+  <script src="access.js?v=20260523-access3"></script>
+  <script src="header.js?v=20260523-admin2" defer></script>
   <script src="cmdpalette.js?v=20260523-zero5" defer></script>
-  <script src="app.js?v=20260523-zero5"></script>
+  <script src="app.js?v=20260523-access3"></script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
 </body>
 </html>

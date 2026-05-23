@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){var r=document.documentElement,s=localStorage.getItem('theme');if(s){r.setAttribute('data-theme',s);}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){r.setAttribute('data-theme','dark');}else{r.setAttribute('data-theme','light');}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - AI Engineering from Zero</title>
+  <link rel="stylesheet" href="style.css?v=20260523-zero5">
+  <style>
+    .admin-page {
+      min-height: 100vh;
+      padding: 112px clamp(24px, 6vw, 80px) 80px;
+      background:
+        linear-gradient(90deg, var(--paper-rule) 1px, transparent 1px),
+        linear-gradient(180deg, var(--paper-rule) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .admin-shell { max-width: 1160px; margin: 0 auto; }
+    .admin-top {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
+    .admin-top p {
+      color: var(--ink-soft);
+      max-width: 720px;
+      line-height: 1.65;
+    }
+    .admin-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin: 0 0 8px;
+    }
+    .admin-top h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1;
+      margin: 0 0 14px;
+    }
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--rule-soft);
+      border: 1px solid var(--rule-soft);
+      margin-bottom: 24px;
+    }
+    .admin-stat { background: var(--bg-surface); padding: 18px; }
+    .admin-stat strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .admin-stat span {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+    .admin-table-wrap {
+      border: 1px solid var(--rule-soft);
+      background: var(--bg);
+      overflow-x: auto;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+    .admin-table th,
+    .admin-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--rule-soft);
+      text-align: left;
+      vertical-align: top;
+    }
+    .admin-table th {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+    .admin-table td span {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink-mute);
+      font-size: 0.84rem;
+    }
+    .role-pill {
+      display: inline-flex !important;
+      margin-top: 0 !important;
+      padding: 3px 8px;
+      border: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.65rem !important;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .role-pill.owner,
+    .role-pill.admin { color: var(--blueprint); border-color: var(--blueprint); }
+    .empty-row { color: var(--ink-mute); text-align: center; padding: 32px !important; }
+    @media (max-width: 800px) { .admin-stats { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo"><span class="logo-icon" aria-hidden="true"></span> AI / FROM ZERO</a>
+      <nav class="header-nav">
+        <a href="index.html#contents" data-i18n="nav.contents">Contents</a>
+        <a href="catalog.html" data-i18n="nav.catalog">Catalog</a>
+        <a href="prereqs.html" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="glossary.html" data-i18n="nav.glossary">Glossary</a>
+        <a href="login.html" data-auth-link data-i18n="nav.login">Login</a>
+      </nav>
+      <div class="language-toggle" id="languageToggle" aria-label="Site language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="id" aria-pressed="false">ID</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" data-i18n-aria="theme.aria" aria-label="Toggle theme"><span class="theme-icon">◐</span></button>
+    </div>
+  </header>
+  <main class="admin-page">
+    <div class="admin-shell">
+      <section class="admin-top">
+        <p class="admin-kicker">Admin dashboard</p>
+        <h1>Learner monitor</h1>
+        <p>Owner and admin roles can monitor registered learners, roles, synced progress, visited lessons, completed lessons, and quiz accuracy.</p>
+        <p id="adminStatus">Loading...</p>
+      </section>
+      <section class="admin-stats">
+        <div class="admin-stat"><strong id="totalUsers">0</strong><span>Total users</span></div>
+        <div class="admin-stat"><strong id="activeUsers">0</strong><span>Active users</span></div>
+        <div class="admin-stat"><strong id="completedLessons">0</strong><span>Completed lessons</span></div>
+      </section>
+      <section class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Learner</th>
+              <th>Role</th>
+              <th>Completed</th>
+              <th>Visited</th>
+              <th>Quiz accuracy</th>
+              <th>Last sync</th>
+            </tr>
+          </thead>
+          <tbody id="adminBody"></tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+  <script src="data.js?v=20260523-zero5"></script>
+  <script src="progress.js?v=20260523-auth1"></script>
+  <script src="i18n.js?v=20260523-admin2"></script>
+  <script src="supabase-config.js?v=20260523-access1"></script>
+  <script src="vendor/supabase-loader.js?v=20260523-admin2"></script>
+  <script src="auth.js?v=20260523-admin2"></script>
+  <script src="access.js?v=20260523-access3"></script>
+  <script src="header.js?v=20260523-admin2" defer></script>
+  <script src="admin.js?v=20260523-admin2"></script>
+</body>
+</html>

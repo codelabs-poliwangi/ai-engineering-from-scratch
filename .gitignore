@@ -53,6 +53,7 @@ mlruns/
 *.bin
 *.h5
 .gstack/
+supabase/.temp/
 
 .link-cache.json
 .claude/

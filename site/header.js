@@ -70,4 +70,8 @@
   } else {
     load();
   }
+
+  if (window.AIFSI18n) {
+    window.AIFSI18n.initGlobalLanguage(new URLSearchParams(window.location.search));
+  }
 })();

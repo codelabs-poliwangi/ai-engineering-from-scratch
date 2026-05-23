@@ -641,7 +641,7 @@ p.dropcap::first-letter {
 
 .modal-lesson {
   display: grid;
-  grid-template-columns: 14px minmax(0, 1fr) auto auto auto auto;
+  grid-template-columns: 14px minmax(0, 1fr) auto auto auto auto auto;
   align-items: center;
   gap: 14px;
   padding: 12px 0;
@@ -672,6 +672,14 @@ p.dropcap::first-letter {
 .modal-lesson > a:hover {
   color: var(--blueprint);
   border-bottom-color: var(--blueprint);
+}
+
+.modal-lesson.locked {
+  opacity: 0.82;
+}
+
+.modal-lesson.locked > a {
+  color: var(--ink-mute);
 }
 
 .modal-lesson-status {
@@ -753,6 +761,37 @@ p.dropcap::first-letter {
   color: var(--blueprint);
   border-color: var(--blueprint);
   border-bottom: 1px solid var(--blueprint);
+}
+
+.modal-lesson .modal-lesson-read.locked {
+  color: var(--warn);
+  border-color: var(--warn);
+}
+
+.access-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  padding: 3px 8px;
+  border: 1px solid var(--rule-soft);
+  color: var(--ink-mute);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.access-badge.free,
+.access-badge.unlocked {
+  color: var(--blueprint);
+  border-color: var(--blueprint);
+}
+
+.access-badge.locked {
+  color: var(--warn);
+  border-color: var(--warn);
 }
 
 .modal-lesson-read-placeholder {
